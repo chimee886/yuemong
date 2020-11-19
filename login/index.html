@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登陆</title>
+    <link rel="shortcut icon" href="../src/icon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../node_modules/normalize.css/normalize.css">
+    <style>
+        .transition_none * {
+            -webkit-transition: none!important;
+            -moz-transition: none!important;
+            -ms-transition: none!important;
+            -o-transition: none!important;
+            transition: none!important;
+        }
+        
+        * {
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+        }
+        
+        body {
+            background-image: url('/src/img/login_bg.png');
+            background-repeat: no-repeat;
+            background-size: 100%;
+            background-position: 0 -1.5rem;
+        }
+        
+        .wrapper {
+            margin-top: 8.25rem;
+            padding-left: 1.15rem;
+        }
+        
+        .wrapper>div {
+            height: 1.65rem;
+            width: 100%;
+        }
+        
+        input {
+            height: .8rem;
+            width: 75%;
+            background-color: transparent;
+            margin: 10px 0 0 0;
+            color: #3A3C42;
+            border: none;
+            border-bottom: 1px solid #E4E3DF;
+            border-radius: 0;
+            outline: none;
+            line-height: .8rem;
+            font-size: .45rem;
+            padding: 0 4px;
+        }
+        
+        #verify_code {
+            width: 48%;
+        }
+        
+        label {
+            display: block;
+            height: .45rem;
+            width: 50%;
+            transform: translateY(.75rem);
+            color: #8C8B89;
+            font-size: .45rem;
+            transition: all .3s;
+        }
+        
+        .wrapper .pwd_label {
+            width: 100%;
+        }
+        
+        label.active {
+            transform: translateY(.2rem);
+            font-size: .375rem;
+            color: #adadad;
+            transition: all .3s;
+        }
+        
+        .sign_up_wrapper {
+            height: 1rem;
+            margin: .175rem 0;
+        }
+        
+        .sign_up_wrapper span {
+            display: inline-block;
+            height: 100%;
+        }
+        
+        .sign_up_wrapper span:nth-child(1) {
+            height: 1.65rem;
+            line-height: 1.65rem;
+            font-weight: 800;
+            font-size: .7rem;
+            margin-right: 2.375rem;
+            color: #3A3C42;
+        }
+        
+        .sign_up_wrapper span img {
+            height: 100%;
+            vertical-align: middle;
+        }
+        
+        .sign_in {
+            font-size: .375rem;
+            color: #3A3C42;
+        }
+        
+        a {
+            list-style: none;
+            color: #3A3C42;
+        }
+        
+        a:visited {
+            color: #3A3C42;
+        }
+        
+        .red {
+            color: red!important;
+        }
+    </style>
+</head>
+
+<body class="transition_none">
+    <div class="wrapper">
+        <div>
+            <label data-text="手机号码" for="phone_num">手机号码</label>
+            <input type="number" id="phone_num">
+        </div>
+        <div>
+            <label class="pwd_label" data-text="密码" for="pwd">密码</label>
+            <input type="password" id="pwd">
+        </div>
+        <!-- <div>
+            <label for="re_pwd">重复密码</label><input type="text" id="re_pwd">
+        </div> -->
+        <div class="sign_up_wrapper">
+            <span>Sign In</span>
+            <span id="submitBtn"><img src="../src/img/submit.png" alt="提交"></span>
+        </div>
+        <span class="sign_in">没有账号？去<a href="../signup/">注册</a></span>
+        <span id="input1"></span>
+    </div>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/amfe-flexible/index.min.js"></script>
+    <script>
+        let getBody = $('.transition_none');
+        $(function() {
+            getBody.removeClass('transition_none')
+        })
+
+
+        let phoneRegexp = new RegExp(/(13[0-9]|15[012356789]|17[0-9]|18[0-9]|14[5-7]|19[1389]|16[67])[0-9]{8}$/)
+        let pwdRegexp = new RegExp(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/)
+        let data = {}
+
+        let submitBtn = $('#submitBtn')
+        submitBtn.on('click', function() {
+
+            data.pwd = $('#pwd').val()
+            if (!pwdRegexp.test(data.pwd)) {
+                $('#pwd').prev().text('6-16位，至少包含一位字母和数字').addClass('red')
+            }
+
+            data.phone = $('#phone_num').val()
+            if (!phoneRegexp.test(data.phone)) {
+                $('#phone_num').prev().text('手机号格式错误').addClass('red')
+            }
+
+            if (phoneRegexp.test(data.phone) & pwdRegexp.test(data.pwd)) {
+                console.log('开始发登陆请求了')
+
+                $.post('http://localhost:9999/login', data) //调用请求验证码接口
+                    .then((response) => {
+                        let data = JSON.parse(response)
+                            //验证成功后将账号/密码储存到数据库
+                            //alert(response)
+                        alert('登陆成功')
+                        localStorage.setItem('music_token', data.token)
+                        localStorage.setItem('uuser', data.uuser)
+                        window.location.href = '/'
+
+                    }, (request) => {
+                        alert(request.responseText)
+                        console.log(request)
+                    })
+            }
+
+        })
+
+
+
+
+
+
+        let input = $('input') //给所有的input添加聚焦事件，改变提示文本位置
+        for (let i = 0; i < input.length; i++) {
+            $(input[i]).on('focus', function() {
+                $(this).prev().addClass('active').removeClass('red')
+                $(this).prev().text($(this).prev().attr('data-text'))
+            })
+            $(input[i]).on('blur', function() { //值为空时失去焦点事件，改变文本位置
+                if (!$(this).val()) {
+                    $(this).prev().removeClass('active red')
+                    $(this).prev().text($(this).prev().attr('data-text'))
+                }
+            })
+        }
+    </script>
+    <script>
+        //封装过期控制代码
+        function set(key, value) {
+            var curTime = new Date().getTime();
+            localStorage.setItem(key, JSON.stringify({
+                data: value,
+                time: curTime
+            }));
+        }
+
+        function get(key, exp) {
+            var data = localStorage.getItem(key);
+            var dataObj = JSON.parse(data);
+            if (new Date().getTime() - dataObj.time > exp) {
+                console.log('信息已过期');
+                //alert("信息已过期")
+            } else {
+                //console.log("data="+dataObj.data);
+                //console.log(JSON.parse(dataObj.data));
+                var dataObjDatatoJson = JSON.parse(dataObj.data)
+                return dataObjDatatoJson;
+            }
+        }
+
+
+        window.onload = function() {
+            var Ipt = document.getElementById('input1');
+            var value = '{"name":"和派孔明","Age":"18","address":"陆家嘴金融城"}';
+            set('information', value);
+
+            Ipt.onclick = function() {
+                //var dataObjData=get('information',1000);//过期时间为1秒,正常情况下，你点击的时候已经过期
+                //var dataObjData=get('information',1000*60);//过期时间为1分钟
+                //var dataObjData=get('information',1000*60*60);//过期时间为1小时
+                //var Obj=get('information',1000*60*60*24);//过期时间为24小时
+                //var dataObjData = get('information', 1000 * 60 * 60 * 24 * 7); //过期时间为1周
+                var dataObjData = get('information', 5000);
+                console.log(dataObjData || null);
+                if (dataObjData != "" && dataObjData != null) {
+                    console.log("姓名:" + dataObjData.name);
+                    console.log("年龄:" + dataObjData.Age);
+                    console.log("地址:" + dataObjData.Age);
+                } else {
+                    alert("获取的信息已经过期");
+                    localStorage.removeItem('information')
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
