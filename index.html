@@ -19,13 +19,9 @@
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script>
         let token = localStorage.getItem('music_token')
-        console.log(token)
-
-        token ? $.post('http://localhost:9999/', token) //调用请求验证码接口
+        token ? $.post('http://169.1.0.119:9999/', token) //调用请求验证码接口
             .then((data) => {
-                console.log(data)
                 const response = JSON.parse(data)
-                console.log(response)
 
                 if (response) {
                     localStorage.setItem('favoriteSongs', response.favoriteSongId)
@@ -34,8 +30,6 @@
                         getFavoriteSongs()
                         identifyFavoriteSong()
                         changUserInfo(response.userinfo)
-                        console.log(typeof(favoriteSongs[0]))
-                        console.log(favoriteSongs)
                         if (favoriteSongs.indexOf("") !== -1) {
                             $('#personal_library .song-singer').text('共有' + (favoriteSongs.length - 1) + '首歌曲')
                         } else {
@@ -375,10 +369,8 @@
     <script src="./node_modules/amfe-flexible/index.js "></script>
     <script src="https://at.alicdn.com/t/font_2052473_ff1om8eizb6.js"></script>
     <script src="./node_modules/swiper/swiper-bundle.js "></script>
-    <script src="./node_modules/leancloud-storage/dist/av-min.js "></script>
     <script src="./src/dist/Lazyload/jquery.lazyload.min.js "></script>
     <script src="./node_modules/loaders.css/loaders.css.js "></script>
-    <script src="./src/js/leancloud.js "></script>
     <script src="./src/js/musicController.js "></script>
     <script src="./src/js/tabs.js "></script>
     <script src="./src/js/albums.js "></script>

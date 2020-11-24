@@ -1,0 +1,15 @@
+.content_null div {
+    height: 100%;
+    width: 5rem;
+    margin: 4rem auto 1rem auto;
+}
+
+.content_null div img {
+    width: 100%;
+}
+
+.content_null p {
+    color: 333434;
+    text-align: center;
+    font-size: 18px;
+}

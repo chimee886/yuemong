@@ -1,0 +1,79 @@
+.personal-center {
+    height: 4.75rem;
+    width: 100%;
+    background: url('../img/personal_center_bg.png') no-repeat;
+    background-size: cover;
+    border-radius: 0 0 16px 16px;
+    border-top: 1px solid transparent;
+}
+
+.personal-information {
+    margin: .75rem .75rem 0 .75rem;
+}
+
+.personal-information .personal-avatar {
+    height: 1.8rem;
+    width: 1.8rem;
+    border-radius: 50%;
+    border: 2px solid white;
+    overflow: hidden;
+}
+
+.personal-information .personal-avatar img {
+    height: 100%;
+    width: 100%;
+}
+
+.personal-id {
+    color: white;
+    font-size: 18px;
+}
+
+.personal-nickname {
+    color: white;
+    margin: .375rem 0 .2rem 0;
+    font-size: 26px;
+    font-weight: 500;
+}
+
+.personal_library,
+.personal_other {
+    padding: 0 .5rem;
+}
+
+.personal_other>p,
+.personal_library>p {
+    margin: 14px 0 8px 0;
+    font-size: 18px;
+}
+
+.personal_other ul li {
+    color: #333434;
+    height: 1.4rem;
+    line-height: 1.4rem;
+    font-size: 18px;
+}
+
+.personal_other .icon {
+    margin-right: 6px;
+    height: .75rem;
+    width: .75rem;
+    vertical-align: middle;
+}
+
+.logout {
+    display: block;
+    color: white;
+    height: 1rem;
+    width: 3rem;
+    margin: .5rem auto 2.5rem auto;
+    background-color: #3A3C41;
+    text-align: center;
+    line-height: 1rem;
+    font-size: 18px;
+    border-radius: 4px;
+}
+
+#favorite-list .comments-list {
+    padding: 1.8rem 5%;
+}

@@ -2,7 +2,6 @@
     "dependencies": {
         "amfe-flexible": "^2.2.1",
         "jquery": "^3.5.1",
-        "leancloud-storage": "^4.8.0",
         "loaders.css": "^0.1.2",
         "normalize.css": "^8.0.1",
         "swiper": "^6.3.5"
