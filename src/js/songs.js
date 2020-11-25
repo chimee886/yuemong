@@ -48,7 +48,7 @@
             return new Promise(function(resolve, reject) {
                 $.ajax({
                     type: 'get',
-                    url: 'http://169.1.0.119:9999/hotSongs',
+                    url: 'http://192.168.31.135:9999/hotSongs',
                     success: function(response) {
                         model.songs = JSON.parse(response)
                         resolve()

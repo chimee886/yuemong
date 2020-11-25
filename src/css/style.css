@@ -98,7 +98,7 @@ li
     margin: 0 0 0 .5rem;
 }
 
-.albums-list h4,
+h4,
 .songs-list h4
 {
     font-size: .625rem;
@@ -106,12 +106,12 @@ li
     margin: .3rem 0;
 }
 
-.albums-list .swiper-slide
+.swiper-slide
 {
     height: 5.2rem;
 }
 
-.albums-list .swiper-slide .album-cover
+.swiper-slide .album-cover
 {
     position: absolute;
     top: 0;
@@ -124,12 +124,12 @@ li
     border-radius: 8px;
 }
 
-.albums-list .swiper-slide div img
+.swiper-slide div img
 {
     height: 100%;
 }
 
-.albums-list .swiper-slide .album-info
+.swiper-slide .album-info
 {
     position: absolute;
     bottom: 0;
@@ -141,7 +141,7 @@ li
 }
 
 
-/* .albums-list .swiper-slide .album-info::after {
+/* .swiper-slide .album-info::after {
     background: url('../img/5.png') no-repeat;
     background-size: 4.5rem;
     background-position: 0% 100%;
@@ -155,7 +155,7 @@ li
     z-index: 1;
 } */
 
-.albums-list .swiper-slide .album-info div
+.swiper-slide .album-info div
 {
     position: absolute;
     z-index: 2;
@@ -164,7 +164,7 @@ li
     padding-left: 6px;
 }
 
-.albums-list .swiper-slide .album-info .album-name
+.swiper-slide .album-info .album-name
 {
     font-size: .4rem;
 
@@ -180,7 +180,7 @@ li
     color: #3c3c3c;
 }
 
-.albums-list .swiper-slide .album-info .album-singer
+.swiper-slide .album-info .album-singer
 {
     font-size: .325rem;
 
@@ -191,7 +191,7 @@ li
     color: #a0a0a0;
 }
 
-.albums-list .swiper-slide.album-slide
+.swiper-slide.album-slide
 {
     position: relative;
 }
@@ -247,7 +247,11 @@ li
 {
     font-size: .35rem;
 
+    width: 6.5rem;
     margin: 2px 0 6px 0;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     color: #a9acbb;
 }
@@ -255,6 +259,8 @@ li
 .songs-list ul li,
 .song-iterm
 {
+    overflow: hidden;
+
     height: 1.8rem;
     padding: .2rem 0;
 }

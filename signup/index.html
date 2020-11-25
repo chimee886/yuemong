@@ -8,125 +8,161 @@
     <link rel="shortcut icon" href="../src/icon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="../node_modules/normalize.css/normalize.css">
     <style>
-        * {
+        *
+        {
             -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
         }
-        
-        .transition_none * {
+
+        .transition_none *
+        {
             -webkit-transition: none!important;
-            -moz-transition: none!important;
-            -ms-transition: none!important;
-            -o-transition: none!important;
-            transition: none!important;
+               -moz-transition: none!important;
+                -ms-transition: none!important;
+                 -o-transition: none!important;
+                    transition: none!important;
         }
-        
-        body {
+
+        body
+        {
             background-image: url('/src/img/sign_up_bg.png');
             background-repeat: no-repeat;
-            background-size: 100%;
             background-position: 0 -1.5rem;
+            background-size: 100%;
         }
-        
-        .wrapper {
+
+        .wrapper
+        {
             margin-top: 8.25rem;
             padding-left: 1.15rem;
         }
-        
-        .wrapper>div {
-            height: 1.65rem;
+
+        .wrapper > div
+        {
             width: 100%;
+            height: 1.65rem;
         }
-        
-        input {
-            height: .8rem;
+
+        input
+        {
+            font-size: .45rem;
+            line-height: .8rem;
+
             width: 75%;
-            background-color: transparent;
+            height: .8rem;
             margin: 10px 0 0 0;
-            color: #3A3C42;
+            padding: 0 4px;
+
+            color: #3a3c42;
             border: none;
-            border-bottom: 1px solid #E4E3DF;
+            border-bottom: 1px solid #e4e3df;
             border-radius: 0;
             outline: none;
-            line-height: .8rem;
-            font-size: .45rem;
-            padding: 0 4px;
+            background-color: transparent;
         }
-        
-        #verify_code {
+
+        #verify_code
+        {
             width: 48%;
         }
-        
-        label {
-            display: block;
-            height: .45rem;
-            transform: translateY(.75rem);
-            color: #8C8B89;
+
+        label
+        {
             font-size: .45rem;
+
+            display: block;
+
+            height: .45rem;
+
             transition: all .3s;
+            transform: translateY(.75rem);
+
+            color: #8c8b89;
         }
-        
-        .verify_label {
+
+        .verify_label
+        {
             width: 50%;
         }
-        
-        label.active {
-            transform: translateY(.2rem);
+
+        label.active
+        {
             font-size: .375rem;
-            color: #adadad;
+
             transition: all .3s;
+            transform: translateY(.2rem);
+
+            color: #adadad;
         }
-        
-        #get_verify_code_btn {
+
+        #get_verify_code_btn
+        {
             font-size: .375rem;
-            color: white;
-            outline: none;
-            border: none;
-            background: #4E5460;
+
             padding: 10px 6px;
+
+            color: white;
+            border: none;
             border-radius: 5px;
+            outline: none;
+            background: #4e5460;
         }
-        
-        .sign_up_wrapper {
+
+        .sign_up_wrapper
+        {
             height: 1rem;
             margin: .175rem 0;
         }
-        
-        .sign_up_wrapper span {
+
+        .sign_up_wrapper span
+        {
             display: inline-block;
+
             height: 100%;
         }
-        
-        .sign_up_wrapper span:nth-child(1) {
-            height: 1.65rem;
-            line-height: 1.65rem;
-            font-weight: 800;
+
+        .sign_up_wrapper span:nth-child(1)
+        {
             font-size: .7rem;
+            font-weight: 800;
+            line-height: 1.65rem;
+
+            height: 1.65rem;
             margin-right: 2.375rem;
-            color: #3A3C42;
+
+            color: #3a3c42;
         }
-        
-        .sign_up_wrapper span img {
+
+        .sign_up_wrapper span img
+        {
             height: 100%;
+
             vertical-align: middle;
         }
-        
-        .sign_in {
+
+        .sign_in
+        {
             font-size: .375rem;
-            color: #3A3C42;
+
+            color: #3a3c42;
         }
-        
-        a {
+
+        a
+        {
             list-style: none;
-            color: #3A3C42;
+
+            color: #3a3c42;
         }
-        
-        a:visited {
-            color: #3A3C42;
+
+        a:visited
+        {
+            color: #3a3c42;
         }
-        
-        .red {
+
+        .red
+        {
             color: Red !important;
         }
+
     </style>
 </head>
 
@@ -177,7 +213,7 @@
             if (phoneRegexp.test(phone)) {
                 data.phone = phone
                 console.log('手机号格式正确')
-                $.post('http://169.1.0.119:9999/signup/getVerifyCode', data.phone) //调用请求验证码接口
+                $.post('http://192.168.31.135:9999/signup/getVerifyCode', data.phone) //调用请求验证码接口
                     .then((response) => {
                         console.log(response)
                         if (response === 'success') { //短信发送成功处理的事件
@@ -229,7 +265,7 @@
                 //
             if (phoneRegexp.test(data.phone) & verifyRegexp.test(data.verify_code) & pwdRegexp.test(data.pwd)) {
                 //前端表单验证无误，向后端发送post请求，验证验证码是否正确
-                $.post('http://169.1.0.119:9999/signup/verifySMSCode', data) //调用请求验证码接口
+                $.post('http://192.168.31.135:9999/signup/verifySMSCode', data) //调用请求验证码接口
                     .then((response) => {
                         console.log(response)
                             //验证成功后将账号/密码储存到数据库
