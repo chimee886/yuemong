@@ -30,7 +30,7 @@
             return new Promise(function(resolve, reject) { //获取发现页最新歌曲列表
                 $.ajax({
                     type: 'get',
-                    url: 'http://192.168.31.135:3000/personalized/newsong?limit=20',
+                    url: 'http://169.1.0.156:3000/personalized/newsong?limit=20',
                     success: function(response) {
                         //将获取到的数据处理后存储到本地
                         console.log(response)
@@ -69,20 +69,6 @@
         playNeteaseSong(ul, model) {
             $(ul).on('click', 'li', (e) => {
                 //let songId = e.currentTarget.dataset.songId
-                console.log(model)
-                for (let i = 0; i < model.length; i++) {
-                    if (!model[i].url) {
-                        //在找到的songId里面加上url属性
-                        console.log(i)
-                        console.log(model[i].id)
-                        console.log(getNeteaseSongUrl(model[i].id))
-                        model[i].url = getNeteaseSongUrl(model[i].id)
-                    } else {
-                        console.log('url有了')
-                        break
-                    }
-                }
-
                 let li = e.currentTarget
 
                 //获取dom里面的歌曲id
@@ -103,20 +89,41 @@
                 $('#audio')[0].play()
                 isPlay = true
                 window.isPlaying()
+                playList = this.model.newSongList
+                console.log('playlist', playList)
+                generateUrl(id)
+                currentSongId = id
+                identifyFavoriteSong() //检测当前歌曲是否是喜欢的歌曲，改变图标颜色
+                    //给当前播放的歌曲列表添加背景色 
+                $('.song-iterm').removeClass('playing')
+                $(li).addClass('playing')
+
             })
         },
         changeSongInfo(data) { //将当前播放歌曲的数据渲染到dom
 
             $('#player').find('.player-name').text(data.name)
             $('#player').find('.player-singer').text(data.singer)
-                //替换audio标签的src
-            let audio = $('#audio')
-            audio.attr('src', data.url)
                 //替换2处封面
             let allCover = $('.player-cover>img')
             for (let i = 0; i < allCover.length; i++) {
                 $(allCover[i]).attr('src', data.cover)
             }
+
+            //替换audio标签的src
+            let audio = $('#audio')
+            audio.attr('src', data.url)
+
+            if (!data.url) {
+                data.url = getNeteaseSongUrl(data.id)
+                audio.attr('src', data.url)
+
+            } else {
+                console.log('url有了')
+                audio.attr('src', data.url)
+
+            }
+
             //给当前播放的歌曲列表添加背景色
             //this.view.changePlayStatus(data.id)
             //this.generateUrl(data.id) //生成当前歌曲的url地址

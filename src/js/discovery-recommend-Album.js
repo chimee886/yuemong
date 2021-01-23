@@ -27,7 +27,7 @@
             return new Promise(function(resolve, reject) {
                 $.ajax({
                     type: 'get',
-                    url: 'http://192.168.31.135:3000/personalized',
+                    url: 'http://169.1.0.156:3000/personalized',
                     success: function(response) {
                         //将获取到的数据处理后存储到本地
                         model.recommendedAlbumList = response.result.map((list) => {

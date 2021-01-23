@@ -16,6 +16,16 @@
         },
         addFavoriteSong() {
             $('#add-favorite').on('click', () => {
+                let source
+                for (let i = 0; i < playList.length; i++) {
+                    if (currentSongId == playList[i].id) {
+                        console.log(playList[i])
+                        source = playList[i].source
+                        break
+                    }
+
+                }
+
                 //获取本地的user，当前歌曲数据
                 let uuser = localStorage.getItem('uuser')
                 let userObjectId = uuser.split('&')[0] //数据库里的用户objId
@@ -24,28 +34,33 @@
                     songId: currentSongId,
                     userObjectId: userObjectId,
                     userId: userId
-
                 }
                 console.log('本地的data')
                 console.log(data)
 
-                $.post('http://localhost:9999/addToFavorite', JSON.stringify(data)) //调用请求验证码接口
-                    .then((response) => {
-                        console.log(response)
-                        if (response === 'saveSuccess') {
-                            favoriteSongs.push(currentSongId)
-                            identifyFavoriteSong() //检测当前歌曲是否是喜欢的歌曲，改变图标颜色
-                        }
-                        console.log(favoriteSongs)
-                        if (favoriteSongs.indexOf("") !== -1) {
-                            $('#personal_library .song-singer').text('共有' + (favoriteSongs.length - 1) + '首歌曲')
-                        } else {
-                            $('#personal_library .song-singer').text('共有' + favoriteSongs.length + '首歌曲')
-                        }
-                    }, (request) => {
-                        alert(request.responseText)
-                        console.log(request)
-                    })
+                if (source === 0) {
+                    $.post('http://localhost:9999/addToFavorite', JSON.stringify(data)) //调用请求验证码接口
+                        .then((response) => {
+                            console.log(response)
+                            if (response === 'saveSuccess') {
+                                favoriteSongs.push(currentSongId)
+                                identifyFavoriteSong() //检测当前歌曲是否是喜欢的歌曲，改变图标颜色
+                            }
+                            console.log(favoriteSongs)
+                            if (favoriteSongs.indexOf("") !== -1) {
+                                $('#personal_library .song-singer').text('共有' + (favoriteSongs.length - 1) + '首歌曲')
+                            } else {
+                                $('#personal_library .song-singer').text('共有' + favoriteSongs.length + '首歌曲')
+                            }
+                        }, (request) => {
+                            alert(request.responseText)
+                            console.log(request)
+                        })
+                } else {
+                    alert('该歌曲不支持收藏')
+                }
+
+
             })
 
         }

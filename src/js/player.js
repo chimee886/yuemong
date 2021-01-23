@@ -61,7 +61,7 @@
             let li1 = []
             for (let i = 0; i < li.length; i++) {
                 let songId = li[i].dataset.songId
-                if (songId === id) {
+                if (songId == id) {
                     console.log(li[i])
                     li1.push(li[i])
                     console.log(songId)
@@ -139,6 +139,10 @@
                     console.log('playList')
                     console.log(playList)
 
+                    if (!playList[index].url) {
+                        playList[index].url = getNeteaseSongUrl(playList[index].id)
+                    }
+
                     let { url, cover, id, name, singer } = playList[index]
                     currentSongId = id //将当前播放的歌曲id存到model
                     this.changeSongInfo(url, cover, id, name, singer)
@@ -147,13 +151,20 @@
                     let keys = Object.keys(playList) //playList获取所有key，获取对象长度
                     let index //声明一个index，获取到当前播放的歌曲的id后，去playList里面找到当前歌曲的角标
                     for (let i = 0; i < keys.length; i++) {
-                        if (playList[i].id === this.getQueryVariable('id')) {
+                        if (playList[i].id == this.getQueryVariable('id')) {
                             index = i
                         }
                     }
                     index++
                     if (index === keys.length) { index = 0 }
                     console.log(playList)
+                    console.log(index)
+                    console.log(playList[index])
+                        //检查url是否存在，不存在就掉接口获取
+                    if (!playList[index].url) {
+                        playList[index].url = getNeteaseSongUrl(playList[index].id)
+                    }
+
                     let { url, cover, id, name, singer } = playList[index]
                     currentSongId = id //将当前播放的歌曲id存到model
                     this.changeSongInfo(url, cover, id, name, singer)
@@ -176,6 +187,10 @@
                         console.log('前面没有歌曲啦')
                         $('.next').trigger('click')
                     } else {
+                        console.log('playList[lastSongIndex]', playList[lastSongIndex].url)
+                        if (!playList[lastSongIndex].url) {
+                            playList[lastSongIndex].url = getNeteaseSongUrl(playList[lastSongIndex].id)
+                        }
                         let { url, cover, id, name, singer } = playList[lastSongIndex]
                         currentSongId = id //将当前播放的歌曲id存到model
                         this.changeSongInfo(url, cover, id, name, singer)
@@ -185,11 +200,14 @@
             })
         },
         changeSongInfo(url, cover, id, name, singer) { //将当前播放歌曲的数据渲染到dom
+
+
             this.view.$el.find('.player-name').text(name)
             this.view.$el.find('.player-singer').text(singer)
                 //替换audio标签的src
             let audio = $('#audio')
             audio.attr('src', url)
+            console.log('url', url)
                 //替换2处封面
             let allCover = $('.player-cover>img')
             for (let i = 0; i < cover.length; i++) {

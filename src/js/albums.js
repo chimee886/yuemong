@@ -81,7 +81,7 @@
             return new Promise(function(resolve, reject) {
                 $.ajax({
                     type: 'get',
-                    url: 'http://192.168.31.135:9999/hotAlbums',
+                    url: 'http://169.1.0.156:9999/hotAlbums',
                     success: function(response) {
                         model.allAlbums = JSON.parse(response)
                         resolve()
@@ -93,7 +93,7 @@
             return new Promise(function(resolve, reject) {
                 $.ajax({
                     type: 'get',
-                    url: 'http://192.168.31.135:9999/albumSongs',
+                    url: 'http://169.1.0.156:9999/albumSongs',
                     data: albumId,
                     dataType: 'text',
                     success: function(response) {

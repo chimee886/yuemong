@@ -170,7 +170,7 @@
             if (phoneRegexp.test(data.phone) & pwdRegexp.test(data.pwd)) {
                 console.log('开始发登陆请求了')
 
-                $.post('http://192.168.31.135:9999/login', data) //调用请求验证码接口
+                $.post('http://169.1.0.156:9999/login', data) //调用请求验证码接口
                     .then((response) => {
                         let data = JSON.parse(response)
                             //验证成功后将账号/密码储存到数据库
