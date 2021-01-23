@@ -344,18 +344,35 @@
             $('.view-comments-wrapper').hide()
                 //点击评论按钮出现评论界面
             $('#view-comments').on('click', function() { //点击评论按钮执行的函数
-                $('.view-comments-wrapper').show(200).siblings().hide()
-                $('.touchbar').hide()
 
                 console.log('currentSongId')
                 console.log(currentSongId)
-                $.post('http://localhost:9999/viewComment', currentSongId) //调用请求验证码接口
-                    .then((response) => {
-                        let data = JSON.parse(response)
-                        console.log(data)
-                        $('.view-comments-wrapper .single-album-loader').hide()
-                        if (data.length < 1) {
-                            let nullTemplate = `
+
+                let source = 0
+                console.log(playList)
+                console.log(typeof playList)
+                for (let i = 0; i < playList.length; i++) {
+                    if (currentSongId == playList[i].id) {
+                        console.log(playList[i])
+                        source = playList[i].source
+                        break
+                    }
+
+                }
+                console.log(source)
+                if (source == 0) {
+
+
+                    $('.view-comments-wrapper').show(200).siblings().hide()
+                    $('.touchbar').hide()
+
+                    $.post('http://localhost:9999/viewComment', currentSongId) //调用请求验证码接口
+                        .then((response) => {
+                            let data = JSON.parse(response)
+                            console.log(data)
+                            $('.view-comments-wrapper .single-album-loader').hide()
+                            if (data.length < 1) {
+                                let nullTemplate = `
                                 <div class="null_comment">
                                     <div class="null_img">
                                         <img src="./src/img/null.png" alt="没有评论">
@@ -363,29 +380,34 @@
                                     <p class="null_text">暂时没有评论哦</p>
                                 </div>
                                 `
-                            $('.comments-list').append(nullTemplate)
+                                $('.comments-list').append(nullTemplate)
 
-                        } else {
-                            //获取到后端返回的数据，渲染页面
-                            for (let i = 0; i < data.length; i++) {
-                                let li = template.replace('{{avatar}}', data[i].avatar)
-                                    .replace('{{nickName}}', data[i].nickName)
-                                    .replace('{{createTime}}', fmtDate(data[i].createTime))
-                                    .replace('{{content}}', data[i].content)
-                                $('.comments-list').append(li)
+                            } else {
+                                //获取到后端返回的数据，渲染页面
+                                for (let i = 0; i < data.length; i++) {
+                                    let li = template.replace('{{avatar}}', data[i].avatar)
+                                        .replace('{{nickName}}', data[i].nickName)
+                                        .replace('{{createTime}}', fmtDate(data[i].createTime))
+                                        .replace('{{content}}', data[i].content)
+                                    $('.comments-list').append(li)
+                                }
                             }
-                        }
 
 
-                        function fmtDate(date) {
-                            var dateee = new Date(date).toJSON();
-                            return new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
-                        }
+                            function fmtDate(date) {
+                                var dateee = new Date(date).toJSON();
+                                return new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
+                            }
 
-                    }, (request) => {
-                        alert(request.responseText)
-                        console.log(request)
-                    })
+                        }, (request) => {
+                            alert(request.responseText)
+                            console.log(request)
+                        })
+                } else {
+                    alert('该歌曲不支持查看评论')
+                }
+
+
 
             })
 

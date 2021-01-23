@@ -16,7 +16,7 @@
         },
         addFavoriteSong() {
             $('#add-favorite').on('click', () => {
-                let source
+                let source = 0
                 for (let i = 0; i < playList.length; i++) {
                     if (currentSongId == playList[i].id) {
                         console.log(playList[i])
