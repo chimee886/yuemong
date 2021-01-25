@@ -30,7 +30,7 @@
             return new Promise(function(resolve, reject) { //获取发现页最新歌曲列表
                 $.ajax({
                     type: 'get',
-                    url: 'http://169.1.0.156:3000/personalized/newsong?limit=20',
+                    url: 'http://169.1.0.68:3000/personalized/newsong?limit=20',
                     success: function(response) {
                         //将获取到的数据处理后存储到本地
                         console.log(response)
@@ -85,7 +85,7 @@
                     }
                 }
                 console.log(index)
-                this.changeSongInfo(this.model.newSongList[index])
+                this.changeSongInfo(this.model.newSongList[index], li)
                 $('#audio')[0].play()
                 isPlay = true
                 window.isPlaying()
@@ -100,27 +100,52 @@
 
             })
         },
-        changeSongInfo(data) { //将当前播放歌曲的数据渲染到dom
+        changeSongInfo(data, li) { //将当前播放歌曲的数据渲染到dom
 
-            $('#player').find('.player-name').text(data.name)
-            $('#player').find('.player-singer').text(data.singer)
-                //替换2处封面
             let allCover = $('.player-cover>img')
-            for (let i = 0; i < allCover.length; i++) {
-                $(allCover[i]).attr('src', data.cover)
-            }
-
-            //替换audio标签的src
             let audio = $('#audio')
-            audio.attr('src', data.url)
-
             if (!data.url) {
-                data.url = getNeteaseSongUrl(data.id)
-                audio.attr('src', data.url)
+                console.log('url没有')
+                let getUrl = getNeteaseSongUrl(data.id)
+                if (getUrl) {
+                    data.url = getUrl
+                    audio.attr('src', data.url)
+                    console.log('data.url', data.url)
 
+
+                    $('#player').find('.player-name').text(data.name)
+                    $('#player').find('.player-singer').text(data.singer)
+                        //替换2处封面
+
+                    for (let i = 0; i < allCover.length; i++) {
+                        $(allCover[i]).attr('src', data.cover)
+                    }
+
+                    //替换audio标签的src
+
+                    audio.attr('src', data.url)
+                    $('.song-iterm').removeClass('playing')
+                    $(li).addClass('playing')
+
+                } else {
+                    alert('没有版权')
+                    console.log('data.url', data.url)
+                }
             } else {
                 console.log('url有了')
                 audio.attr('src', data.url)
+
+                $('#player').find('.player-name').text(data.name)
+                $('#player').find('.player-singer').text(data.singer)
+
+                for (let i = 0; i < allCover.length; i++) {
+                    $(allCover[i]).attr('src', data.cover)
+                }
+
+                //替换audio标签的src
+                audio.attr('src', data.url)
+                $('.song-iterm').removeClass('playing')
+                $(li).addClass('playing')
 
             }
 

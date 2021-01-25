@@ -30,7 +30,7 @@ function getNeteaseSongUrl(id) {
     let songurl = null
     $.ajax({
         type: 'get',
-        url: 'http://169.1.0.156:3000/song/url?id=' + id,
+        url: 'http://169.1.0.68:3000/song/url?id=' + id,
         async: false,
         success: function(res) {
             //在model里面的歌曲里面查找songId
@@ -67,5 +67,16 @@ function changePlayStatus(id) { //查询当前播放歌曲id，并改变dom样�
     for (let i = 0; i < li1.length; i++) {
         $(li1[i]).addClass('playing')
 
+    }
+}
+
+function getQueryVariable(variable) { //从地址栏获取歌曲id
+    let query = window.location.search.substring(1)
+    let vars = query.split("&");
+    for (let i = 0; i < vars.length; i++) {
+        let pair = vars[i].split("=");
+        if (pair[0] == variable) {
+            return pair[1];
+        }
     }
 }

@@ -19,7 +19,7 @@
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script>
         let token = localStorage.getItem('music_token')
-        token ? $.post('http://169.1.0.156:9999/', token) //调用请求验证码接口
+        token ? $.post('http://169.1.0.68:9999/', token) //调用请求验证码接口
             .then((data) => {
                 const response = JSON.parse(data)
 
@@ -256,6 +256,21 @@
             </div>
         </div>
         <div style="display:none" class="page-container">
+            <!-- 发现页搜索框 -->
+            <div class="music-header">
+                <div class="search-box">
+                    <svg class="icon search-icon" aria-hidden="true">
+                    <use xlink:href="#icon-biaoqiankuozhan_sousuo-354"></use>
+                </svg>
+                    <form id="netease_search_form" action="">
+                        <input type="text" name="netease_search_ipt" id="netease_search_ipt" placeholder="Search">
+                    </form>
+                    <!-- <div class="player-min player-cover paused">
+                        <img src="">
+                    </div> -->
+                    <span class="search_cancel" style="display: none;">取消</span>
+                </div>
+            </div>
             <div class="recommendedList" id="recommendedList">
                 <h5>推荐歌单</h5>
                 <div class="recommendedAlbumList">
@@ -270,6 +285,16 @@
                         <div class="loader-inner ball-spin-fade-loader">
                         </div>
                     </div>
+                </ul>
+            </div>
+            <div class="netease_search_list">
+                <!-- loading动画 -->
+                <div style="height: 9rem; display: none;" class="single-album-loader">
+                    <div class="loader-inner ball-spin-fade-loader">
+                    </div>
+                </div>
+                <ul>
+
                 </ul>
             </div>
             <!-- <div class="content_null">
@@ -388,6 +413,7 @@
     <script src="./src/js/personal_other.js"></script>
     <script src="./src/js/discovery-recommend-Album.js"></script>
     <script src="./src/js/discovery-news-ong.js"></script>
+    <script src="./src/js/discover-search.js"></script>
     <script>
         $('#logout').on('click', () => {
             window.localStorage.clear()
