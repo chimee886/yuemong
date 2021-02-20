@@ -366,7 +366,7 @@
                     $('.view-comments-wrapper').show(200).siblings().hide()
                     $('.touchbar').hide()
 
-                    $.post('http://192.168.31.229:9999/viewComment', currentSongId) //调用请求验证码接口
+                    $.post('http://106.13.208.121:9999/viewComment', currentSongId) //调用请求验证码接口
                         .then((response) => {
                             let data = JSON.parse(response)
                             console.log(data)
@@ -443,7 +443,7 @@
                     }
                     console.log(data)
                     console.log(commentContent)
-                    $.post('http://192.168.31.229:9999/postComment', JSON.stringify(data)) //调用请求验证码接口
+                    $.post('http://106.13.208.121:9999/postComment', JSON.stringify(data)) //调用请求验证码接口
                         .then((response) => {
                             let data = JSON.parse(response)
                             console.log(data)

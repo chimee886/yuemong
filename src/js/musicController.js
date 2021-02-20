@@ -30,7 +30,7 @@ function getNeteaseSongUrl(id) {
     let songurl = null
     $.ajax({
         type: 'get',
-        url: 'http://192.168.31.229:3000/song/url?id=' + id,
+        url: 'http://106.13.208.121:3000/song/url?id=' + id,
         async: false,
         success: function(res) {
             //在model里面的歌曲里面查找songId

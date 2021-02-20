@@ -86,7 +86,7 @@
                         $('.netease_search_list .single-album-loader').show()
 
                         //点击enter，发起搜索请求
-                        $.get('http://192.168.31.229:3000/search?keywords=' + searchVlue)
+                        $.get('http://106.13.208.121:3000/search?keywords=' + searchVlue)
                             .then((response) => {
                                 console.log(this)
                                 console.log(response)
@@ -105,7 +105,7 @@
                                 }
                                 console.log('ids', ids)
                                     //根据歌曲id，获取歌曲信息
-                                $.get('http://192.168.31.229:3000/song/detail?ids=' + ids)
+                                $.get('http://106.13.208.121:3000/song/detail?ids=' + ids)
                                     .then((res) => {
                                             console.log(res)
                                             let songs = res.songs.map((song) => {

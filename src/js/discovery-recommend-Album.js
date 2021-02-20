@@ -65,7 +65,7 @@
             return new Promise(function(resolve, reject) {
                 $.ajax({
                     type: 'get',
-                    url: 'http://192.168.31.229:3000/recommend/resource?cookie=' + neteaseCookie,
+                    url: 'http://106.13.208.121:3000/recommend/resource?cookie=' + neteaseCookie,
                     success: function(response) {
                         console.log('歌单', response)
                             //将获取到的数据处理后存储到本地
@@ -98,13 +98,24 @@
         },
         getAblumSongList() {
             $('.recommendedAlbumList .album-slide').on('click', (e) => {
+
                 console.log('点击了2')
+
+
+                $('.discover .album-container .single-album-loader').show()
+
+                $(window).unbind('scroll')
+                    //歌曲渲染分页
+                this.model.songs = []
+                let page
+                page = 1
+                console.log('page', page)
                 let albumId = e.currentTarget.dataset.id
 
                 $('.discover .single-album ul').html('')
                     // identifyFavoriteSong()
 
-                $.get('http://192.168.31.229:3000/playlist/detail?id=' + albumId)
+                $.get('http://106.13.208.121:3000/playlist/detail?id=' + albumId)
                     .then((response) => {
                         //更换歌单详情页的封面和名字
                         let albumInfo = {}
@@ -127,12 +138,11 @@
                         let rankSongsNumber = 20
                             // ranks表示总的页数
                         let ranks = Math.ceil(songsId.length / rankSongsNumber)
-                        console.log(ranks)
+                        console.log('ranks', ranks)
 
 
-                        //歌曲渲染分页
-                        let page = 1
-                            // 当前分页内的所有歌曲
+
+                        // 当前分页内的所有歌曲
                         let pageSongs = songsId.slice((page - 1) * rankSongsNumber, page * rankSongsNumber)
                             // console.log('list', pageSongs)
                         let ids = ''
@@ -141,28 +151,27 @@
                         }
                         ids = ids.substring(0, ids.length - 1)
                             // console.log(ids)
-                        this.generateSong(ids)
+                        console.log('ids,page,rankSongsNumber', ids, page, rankSongsNumber)
+                        this.generateSong(ids, page, rankSongsNumber)
 
 
 
                         // 检测滚动到浏览器底部
                         $(window).on('scroll', () => {　　
-
+                            console.log('page1', page, 'ranks', ranks)　
                             var scrollTop = $(window).scrollTop();　　
                             var scrollHeight = $(document).height();　　
                             var windowHeight = $(window).height();　　
-                            if (scrollTop + windowHeight == scrollHeight) {　
+                            if (scrollTop + windowHeight >= scrollHeight - 10) {　
 
-                                // console.log(page, ranks)　　　
+                                console.log('page', page, 'ranks', ranks)　　　
                                 if (page === ranks) {
                                     console.log('没有更多了')
-                                    alert('没有更多了')
+                                        // $('.discover .single-album ul').append('<p class="null_text">没有更多歌曲了哦</p>')
                                 } else {
                                     // console.log('到底部了')
+                                    $('.discover .album-container .single-album-loader').show()
                                     page++
-                                    // console.log(page)
-
-
                                     pageSongs = songsId.slice((page - 1) * rankSongsNumber, page * rankSongsNumber)
                                         // console.log('list', pageSongs)
                                     let ids = ''
@@ -171,9 +180,7 @@
                                     }
                                     ids = ids.substring(0, ids.length - 1)
                                     console.log(ids)
-                                    this.generateSong(ids)
-
-
+                                    this.generateSong(ids, page, rankSongsNumber)
                                 }
 
 
@@ -195,13 +202,15 @@
         }
 
         ,
-        generateSong(ids) {
-            $.get('http://192.168.31.229:3000/song/detail?ids=' + ids)
+        generateSong(ids, page, rankSongsNumber) {
+            $.get('http://106.13.208.121:3000/song/detail?ids=' + ids)
                 .then((res) => {
-                        // console.log(res)
-                        model.songs = res.songs.map((song) => {
-                                return { id: song.id, name: song.name, singer: song.ar[0].name, cover: song.al.picUrl + '?param=500y500' }
-                            })
+                        console.log(res)
+                        model.songs = model.songs.concat(res.songs.map((song) => {
+                            return { id: song.id, name: song.name, singer: song.ar[0].name, cover: song.al.picUrl + '?param=500y500' }
+                        }))
+
+                        console.log('model.songs', model.songs)
                             // console.log(model.songs)
                             //获取到搜索数据后，隐藏loading动画
                         $('.discover .album-container .single-album-loader').hide()
@@ -218,8 +227,12 @@
                             $('.discover .single-album ul').append(nullTemplate)
                         } else {
                             //生成渲染dom
-                            for (let i = 0; i < model.songs.length; i++) {
-                                $('.discover .single-album ul').append(view.songRender(model.songs[i]))
+
+                            let pageSongs1 = model.songs.slice((page - 1) * rankSongsNumber, page * rankSongsNumber)
+
+
+                            for (let i = 0; i < pageSongs1.length; i++) {
+                                $('.discover .single-album ul').append(view.songRender(pageSongs1[i]))
                             }
                             //绑定点击事件
 
@@ -283,6 +296,8 @@
 
             let allCover = $('.player-cover>img')
             let audio = $('#audio')
+            console.log('有问题', data)
+            console.log('this', this.model.songs)
             if (!data.url) {
                 console.log('url没有')
                 let getUrl = getNeteaseSongUrl(data.id)

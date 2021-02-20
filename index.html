@@ -19,7 +19,7 @@
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script>
         let token = localStorage.getItem('music_token')
-        token ? $.post('http://192.168.31.229:9999/', token) //调用请求验证码接口
+        token ? $.post('http://106.13.208.121:9999/', token) //调用请求验证码接口
             .then((data) => {
                 const response = JSON.parse(data)
 
@@ -322,14 +322,15 @@
                 </div>
                 <div class="single-album">
                     <p>歌曲列表</p>
+
+                    <ul>
+
+                    </ul>
                     <!-- loading动画 -->
                     <div class="single-album-loader">
                         <div class="loader-inner ball-spin-fade-loader">
                         </div>
                     </div>
-                    <ul>
-
-                    </ul>
                 </div>
             </div>
         </div>

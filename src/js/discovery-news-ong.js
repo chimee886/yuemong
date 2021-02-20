@@ -30,7 +30,7 @@
             return new Promise(function(resolve, reject) { //获取发现页最新歌曲列表
                 $.ajax({
                     type: 'get',
-                    url: 'http://192.168.31.229:3000/recommend/songs?cookie=' + neteaseCookie,
+                    url: 'http://106.13.208.121:3000/recommend/songs?cookie=' + neteaseCookie,
                     success: function(response) {
                         //将获取到的数据处理后存储到本地
                         console.log(response)
