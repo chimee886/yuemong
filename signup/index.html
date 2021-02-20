@@ -213,7 +213,7 @@
             if (phoneRegexp.test(phone)) {
                 data.phone = phone
                 console.log('手机号格式正确')
-                $.post('http://169.1.0.68:9999/signup/getVerifyCode', data.phone) //调用请求验证码接口
+                $.post('http://192.168.31.229:9999/signup/getVerifyCode', data.phone) //调用请求验证码接口
                     .then((response) => {
                         console.log(response)
                         if (response === 'success') { //短信发送成功处理的事件
@@ -265,7 +265,7 @@
                 //
             if (phoneRegexp.test(data.phone) & verifyRegexp.test(data.verify_code) & pwdRegexp.test(data.pwd)) {
                 //前端表单验证无误，向后端发送post请求，验证验证码是否正确
-                $.post('http://169.1.0.68:9999/signup/verifySMSCode', data) //调用请求验证码接口
+                $.post('http://192.168.31.229:9999/signup/verifySMSCode', data) //调用请求验证码接口
                     .then((response) => {
                         console.log(response)
                             //验证成功后将账号/密码储存到数据库

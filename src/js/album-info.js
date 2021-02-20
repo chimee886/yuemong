@@ -1,6 +1,6 @@
 {
     let view = {
-        el: '.album-container',
+        el: '#home-page .album-container',
         template: ``,
         init() {
             this.$el = $(this.el)

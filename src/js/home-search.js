@@ -85,7 +85,7 @@
                         $('.search_list .single-album-loader').show()
 
                         //点击enter，发起搜索请求
-                        $.post('http://169.1.0.68:9999/searchSong', searchVlue)
+                        $.post('http://192.168.31.229:9999/searchSong', searchVlue)
                             .then((response) => {
                                 console.log(this)
                                 console.log(JSON.parse(response))

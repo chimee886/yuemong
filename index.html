@@ -19,7 +19,7 @@
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script>
         let token = localStorage.getItem('music_token')
-        token ? $.post('http://169.1.0.68:9999/', token) //调用请求验证码接口
+        token ? $.post('http://192.168.31.229:9999/', token) //调用请求验证码接口
             .then((data) => {
                 const response = JSON.parse(data)
 
@@ -255,54 +255,83 @@
                 </div>
             </div>
         </div>
-        <div style="display:none" class="page-container">
-            <!-- 发现页搜索框 -->
-            <div class="music-header">
-                <div class="search-box">
-                    <svg class="icon search-icon" aria-hidden="true">
-                    <use xlink:href="#icon-biaoqiankuozhan_sousuo-354"></use>
-                </svg>
-                    <form id="netease_search_form" action="">
-                        <input type="text" name="netease_search_ipt" id="netease_search_ipt" placeholder="Search">
-                    </form>
-                    <!-- <div class="player-min player-cover paused">
-                        <img src="">
-                    </div> -->
-                    <span class="search_cancel" style="display: none;">取消</span>
-                </div>
-            </div>
-            <div class="recommendedList" id="recommendedList">
-                <h5>推荐歌单</h5>
-                <div class="recommendedAlbumList">
-                    <div class="swiper-wrapper">
-
+        <div style="display:none" class="page-container discover">
+            <div class="discover-home">
+                <!-- 发现页搜索框 -->
+                <div class="music-header">
+                    <div class="search-box">
+                        <svg class="icon search-icon" aria-hidden="true">
+            <use xlink:href="#icon-biaoqiankuozhan_sousuo-354"></use>
+            </svg>
+                        <form id="netease_search_form" action="">
+                            <input type="text" name="netease_search_ipt" id="netease_search_ipt" placeholder="Search">
+                        </form>
+                        <!-- <div class="player-min player-cover paused">
+            <img src="">
+            </div> -->
+                        <span class="search_cancel" style="display: none;">取消</span>
                     </div>
-                    <!-- Add Pagination -->
                 </div>
-                <h5>最新推荐</h5>
-                <ul id="netEaseNewMusic">
-                    <div class="loader">
+                <div class="recommendedList" id="recommendedList">
+                    <h5>推荐歌单</h5>
+                    <div class="recommendedAlbumList">
+                        <div class="swiper-wrapper">
+
+                        </div>
+                        <!-- Add Pagination -->
+                    </div>
+                    <h5>每日推荐</h5>
+                    <ul id="netEaseNewMusic">
+                        <div class="loader">
+                            <div class="loader-inner ball-spin-fade-loader">
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+                <div class="netease_search_list">
+                    <!-- loading动画 -->
+                    <div style="height: 9rem; display: none;" class="single-album-loader">
                         <div class="loader-inner ball-spin-fade-loader">
                         </div>
                     </div>
-                </ul>
+                    <ul>
+
+                    </ul>
+                </div>
+                <!-- <div class="content_null">
+            <div>
+            <img src="./src/img/discover_null.png" alt="">
             </div>
-            <div class="netease_search_list">
-                <!-- loading动画 -->
-                <div style="height: 9rem; display: none;" class="single-album-loader">
-                    <div class="loader-inner ball-spin-fade-loader">
+            <p style="color: #333333;">发现页做点啥呢</p>
+            </div> -->
+            </div>
+            <!-- 点击专辑出现的页面 -->
+            <div class="album-container">
+                <div class="player-header clearfix">
+                    <div class="return">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-fanhui1-copy"></use>
+                        </svg>
+                    </div>
+                    <div class="player-info album-name">
+                        <p class="single-album-name">专辑名字</p>
                     </div>
                 </div>
-                <ul>
-
-                </ul>
-            </div>
-            <!-- <div class="content_null">
-                <div>
-                    <img src="./src/img/discover_null.png" alt="">
+                <div class="album-bg">
+                    <img src="./src/img/5.png" alt="">
                 </div>
-                <p style="color: #333333;">发现页做点啥呢</p>
-            </div> -->
+                <div class="single-album">
+                    <p>歌曲列表</p>
+                    <!-- loading动画 -->
+                    <div class="single-album-loader">
+                        <div class="loader-inner ball-spin-fade-loader">
+                        </div>
+                    </div>
+                    <ul>
+
+                    </ul>
+                </div>
+            </div>
         </div>
         <div style="display:none" class="page-container">
             <div id="personal-home" class="personal-home">
@@ -402,6 +431,7 @@
     <script src="./node_modules/loaders.css/loaders.css.js "></script>
     <script src="./node_modules/clipboard/dist/clipboard.min.js"></script>
     <script src="./src/js/musicController.js "></script>
+    <script src="./src/js/public.js"></script>
     <script src="./src/js/tabs.js "></script>
     <script src="./src/js/albums.js "></script>
     <script src="./src/js/songs.js "></script>
@@ -414,6 +444,7 @@
     <script src="./src/js/discovery-recommend-Album.js"></script>
     <script src="./src/js/discovery-news-ong.js"></script>
     <script src="./src/js/discover-search.js"></script>
+    <script src="./src/js/discover-album.js"></script>
     <script>
         $('#logout').on('click', () => {
             window.localStorage.clear()
@@ -422,9 +453,9 @@
     </script>
     <script>
         if (!localStorage.getItem('version')) {
-            alert('个人中心部分功能未上线！')
+            // alert('个人中心部分功能未上线！')
         }
-        localStorage.setItem('version', '0.0.3')
+        localStorage.setItem('version', '1.0.0')
     </script>
     <!--     <script src="./node_modules/vconsole/dist/vconsole.min.js"></script>
     <script>
@@ -433,7 +464,6 @@
         console.log('Hello world');
     </script> -->
     <script src="./src/js/addFavorite.js"></script>
-    <script src="./src/js/public.js"></script>
     <!-- 
     <script src="./node_modules/vconsole/dist/vconsole.min.js"></script>
     <script>

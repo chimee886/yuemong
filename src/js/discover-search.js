@@ -86,10 +86,10 @@
                         $('.netease_search_list .single-album-loader').show()
 
                         //点击enter，发起搜索请求
-                        $.get('http://localhost:3000/search?keywords=' + searchVlue)
+                        $.get('http://192.168.31.229:3000/search?keywords=' + searchVlue)
                             .then((response) => {
                                 console.log(this)
-                                console.log(response.result.songs)
+                                console.log(response)
                                     //获取到所有搜索结果的歌曲id
                                 let songsId = response.result.songs.map((song) => {
                                     return { id: song.id }
@@ -105,7 +105,7 @@
                                 }
                                 console.log('ids', ids)
                                     //根据歌曲id，获取歌曲信息
-                                $.get('http://localhost:3000/song/detail?ids=' + ids)
+                                $.get('http://192.168.31.229:3000/song/detail?ids=' + ids)
                                     .then((res) => {
                                             console.log(res)
                                             let songs = res.songs.map((song) => {
@@ -130,32 +130,17 @@
                                                     `
                                                 this.view.$el.append(nullTemplate)
                                             } else {
-
-
                                                 //生成渲染dom
                                                 for (let i = 0; i < this.model.songs.length; i++) {
                                                     this.view.$el.append(this.view.render(this.model.songs[i]))
                                                 }
-
                                                 //绑定点击事件
                                                 this.playSong()
-
                                                 changePlayStatus(getQueryVariable('id'))
-
                                             }
-
                                             this.lazyLoad()
-
-
-
-
-
-
-
                                         },
                                         (req) => { console.log(req) })
-
-
                             }, (request) => {
                                 console.log(request)
                                 alert(JSON.stringify(request))

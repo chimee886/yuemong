@@ -73,7 +73,7 @@
                 console.log(data)
 
 
-                $.post('http://169.1.0.68:9999/viewFavorite', JSON.stringify(data)) //调用请求验证码接口
+                $.post('http://192.168.31.229:9999/viewFavorite', JSON.stringify(data)) //调用请求验证码接口
                     .then((response) => {
 
                         $('#favorite-list .single-album-loader').hide() //隐藏loading动画

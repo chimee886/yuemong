@@ -39,8 +39,8 @@
                 .replace('{{song-id}}', data.id)
         },
         replaceAlbumHeader(data) {
-            $('.album-bg img').attr('src', data.cover)
-            $('.album-name .single-album-name').text(data.name)
+            $('#home-page .album-bg img').attr('src', data.cover)
+            $('#home-page .album-name .single-album-name').text(data.name)
         },
         changePlayStatus() { //查询当前播放歌曲id，并改变dom样式
             let li = $('.song-iterm')
@@ -81,7 +81,7 @@
             return new Promise(function(resolve, reject) {
                 $.ajax({
                     type: 'get',
-                    url: 'http://169.1.0.68:9999/hotAlbums',
+                    url: 'http://192.168.31.229:9999/hotAlbums',
                     success: function(response) {
                         model.allAlbums = JSON.parse(response)
                         resolve()
@@ -93,7 +93,7 @@
             return new Promise(function(resolve, reject) {
                 $.ajax({
                     type: 'get',
-                    url: 'http://169.1.0.68:9999/albumSongs',
+                    url: 'http://192.168.31.229:9999/albumSongs',
                     data: albumId,
                     dataType: 'text',
                     success: function(response) {
@@ -119,7 +119,7 @@
         },
         //点击专辑封面，进入专辑详情
         viewAlbum() {
-            let allAlbums = $('.album-slide')
+            let allAlbums = $('#home-page .albums-container .album-slide')
 
 
             allAlbums.on('click', (e) => {
@@ -127,16 +127,16 @@
                     //点击把专辑数组置空，避免点下一个专辑出现上一个专辑的数据
                 this.model.currentAlbumSongs = {}
                     //把上一次生成的html置空，不然会变成追加歌曲
-                $('.single-album>ul').html('')
+                $('#home-page .single-album>ul').html('')
                     //获取渲染到dom的id
                 let albumId = e.currentTarget.dataset.id
                     //获取专辑内的歌曲
                 this.model.getAlbumSongs(albumId).then(() => {
                     let albumData = this.model.currentAlbumSongs
                     for (const key in albumData) {
-                        $('.single-album>ul').append(this.view.albumSongRender(albumData[key]))
+                        $('#home-page .single-album>ul').append(this.view.albumSongRender(albumData[key]))
                     }
-                    $('.single-album .single-album-loader').hide()
+                    $('#home-page .single-album .single-album-loader').hide()
                         //调用图片懒加载，截图图片不显示问题 
                     this.view.changePlayStatus() //查询地址栏歌曲id，改变dom样式
                     this.lazyload()
@@ -151,7 +151,7 @@
                 }
 
 
-                let albumContainer = $('.album-container')
+                let albumContainer = $('#home-page .album-container')
                 albumContainer.show(150)
                     .siblings().hide(150)
                 $('.touchbar').hide()
@@ -161,7 +161,7 @@
         playSong() {
             //以下代码是点击歌曲，切换播放并更换封面
 
-            let ul = $('.single-album>ul')
+            let ul = $('#home-page .single-album>ul')
             ul.on('click', 'li', (e) => {
                 e.preventDefault()
                 isPlay = true
