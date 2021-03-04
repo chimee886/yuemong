@@ -30,8 +30,12 @@ function getNeteaseSongUrl(id) {
     let songurl = null
     $.ajax({
         type: 'get',
-        url: 'http://106.13.208.121:3000/song/url?id=' + id,
+        url: 'http://106.13.208.121:3000/song/url?id=' + id + '&cookie=' + localStorage.getItem('cookie'),
         async: false,
+        xhrFields: {
+            withCredentials: true
+        },
+        crossDomain: true,
         success: function(res) {
             //在model里面的歌曲里面查找songId
             //在找到的songId里面加上url属性
@@ -80,3 +84,5 @@ function getQueryVariable(variable) { //从地址栏获取歌曲id
         }
     }
 }
+
+$('#audio')[0].pause()

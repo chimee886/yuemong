@@ -27,8 +27,10 @@
 
 .touchbar div.active
 {
-    transform-origin: 50% 0;
-    animation: scale .1s;
+    transition: all .1s;
+    transform: scale(1.1);
+    /* transform-origin: 50% 0; */
+    /* animation: scale .1s; */
 
     opacity: 1;
 }

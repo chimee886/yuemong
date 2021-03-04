@@ -24,7 +24,8 @@
 
         body
         {
-            background-image: url('/src/img/login_bg.png');
+            background-color: white;
+            background-image: url('http://img.lizhi334.cn/login_bg.png');
             background-repeat: no-repeat;
             background-position: 0 -1.5rem;
             background-size: 100%;
@@ -203,18 +204,27 @@
             if (phoneRegexp.test(data.phone) & pwdRegexp.test(data.pwd)) {
                 console.log('开始发登陆请求了')
 
-                $.post('http://106.13.208.121:9999/login', data) //调用请求验证码接口
+                $.post('http://169.1.0.113:9999/login', data) //调用请求验证码接口
                     .then((response) => {
                         let data = JSON.parse(response)
                             //验证成功后将账号/密码储存到数据库
                             //alert(response)
                         alert('登陆成功')
+                        console.log(data)
                         localStorage.setItem('music_token', data.token)
                         localStorage.setItem('uuser', data.uuser)
+                        localStorage.setItem('cookie', data.cookie)
+                        localStorage.setItem('appUrl', data.appUrl)
                         window.location.href = '/'
 
                     }, (request) => {
-                        alert(request.responseText)
+                        if (JSON.parse(request.responseText).code === 210) {
+                            alert('密码错误')
+                        } else if ((JSON.parse(request.responseText).code === 211)) {
+                            alert('用户不存在')
+                        } else {
+                            alert(request.responseText)
+                        }
                         console.log(request)
                     })
             }

@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="player-cover-max player-cover paused">
-            <img src="./src/img/1.png">
+            <img src="">
         </div>
         <div class="functional-area">
             <span id="play-mode-btn"><img src="" alt=""></span>
@@ -90,6 +90,7 @@
             this.changePlayMode()
             this.timedOff()
             this.viewComments()
+            this.autoPause()
         },
         playPause() {
             //点击暂停按钮控制
@@ -493,6 +494,19 @@
                     return pair[1];
                 }
             }
+        },
+        autoPause() {
+            let audio = $('#audio')
+            audio.on('pause', () => {
+                console.log('播放暂停了')
+                window.isPlay = false
+                window.isPlaying()
+            })
+            audio.on('play', () => {
+                console.log('播放开始')
+                window.isPlay = true
+                window.isPlaying()
+            })
         }
 
     }

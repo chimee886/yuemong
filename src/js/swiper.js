@@ -11,7 +11,7 @@ $(function() {
         autoplay: {
             delay: 2500,
             disableOnInteraction: false,
-        }
+        },
         // 如果需要前进后退按钮
         /* navigation: {
             nextEl: '.swiper-button-next',
@@ -22,6 +22,9 @@ $(function() {
         /* scrollbar: {
             el: '.swiper-scrollbar',
         }, */
+        observer: true, //修改swiper自己或子元素时，自动初始化swiper
+
+        observeParents: true //修改swiper的父元素时，自动初始化swiper
     })
     var swiper = new Swiper('.albums-container', { //首页专辑列表
         slidesPerView: 2.3,

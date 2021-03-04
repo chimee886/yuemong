@@ -73,7 +73,7 @@
             $('#netease_search_ipt').on('keyup', (e) => {
 
 
-                if (e.originalEvent.code === 'Enter') {
+                if (e.originalEvent.code === 'Enter' || e.keyCode == "13") {
                     let searchVlue = $('#netease_search_ipt').val()
                     if (!searchVlue) {
                         alert('搜索内容为空')

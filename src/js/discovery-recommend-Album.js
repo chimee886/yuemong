@@ -64,8 +64,13 @@
         getRecommendedAlbumList() { //获取发现页的推荐歌单数据
             return new Promise(function(resolve, reject) {
                 $.ajax({
-                    type: 'get',
-                    url: 'http://106.13.208.121:3000/recommend/resource?cookie=' + neteaseCookie,
+                    // type: 'get',
+                    url: 'http://106.13.208.121:3000/recommend/resource?cookie=' + localStorage.getItem('cookie'),
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    　　　　 // 允许跨域
+                    crossDomain: true,
                     success: function(response) {
                         console.log('歌单', response)
                             //将获取到的数据处理后存储到本地
@@ -76,6 +81,7 @@
                     },
                     error: function(req) {
                         console.log('req', req)
+                        reject()
                     }
                 })
             })
@@ -314,6 +320,7 @@
                     for (let i = 0; i < allCover.length; i++) {
                         $(allCover[i]).attr('src', data.cover)
                     }
+                    console.log('li', li)
 
                     //替换audio标签的src
 

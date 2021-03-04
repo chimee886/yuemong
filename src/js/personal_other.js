@@ -23,8 +23,8 @@
             })
         },
         downloadApp() {
-            $('#downloadApp,#seekSong').on('click', () => {
-                alert('请期待')
+            $('#downloadApp').on('click', function() {
+                $('#downloadApp a').attr('href', localStorage.getItem('appUrl'))
             })
         }
     }

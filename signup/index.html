@@ -24,7 +24,8 @@
 
         body
         {
-            background-image: url('/src/img/sign_up_bg.png');
+            background-color: white;
+            background-image: url('http://img.lizhi334.cn/sign_up_bg.png');
             background-repeat: no-repeat;
             background-position: 0 -1.5rem;
             background-size: 100%;
@@ -32,14 +33,14 @@
 
         .wrapper
         {
-            margin-top: 8.25rem;
+            margin-top: 8rem;
             padding-left: 1.15rem;
         }
 
         .wrapper > div
         {
             width: 100%;
-            height: 1.65rem;
+            height: 1.5rem;
         }
 
         input
@@ -163,6 +164,11 @@
             color: Red !important;
         }
 
+        #invitation_code
+        {
+            text-transform: uppercase;
+        }
+
     </style>
 </head>
 
@@ -181,6 +187,12 @@
             <label data-text="密码" for="pwd">密码</label>
             <input type="password" id="pwd">
         </div>
+        <div>
+            <label data-text="邀请码" for="invitation_code">邀请码</label>
+            <input type="text" id="invitation_code">
+        </div>
+        <p class="sign_in">没有邀请码?<a href="https://626faka.com/rDKj" target="_blank">点击获取</a></p>
+
         <!-- <div>
             <label for="re_pwd">重复密码</label><input type="text" id="re_pwd">
         </div> -->
@@ -261,9 +273,13 @@
             if (!phoneRegexp.test(data.phone)) {
                 $('#phone_num').prev().text('手机号格式错误').addClass('red')
             }
+            data.invitation_code = $('#invitation_code').val().toUpperCase()
+            if (!data.invitation_code) {
+                $('#invitation_code').prev().text('邀请码格式错误').addClass('red')
+            }
             console.log(data)
                 //
-            if (phoneRegexp.test(data.phone) & verifyRegexp.test(data.verify_code) & pwdRegexp.test(data.pwd)) {
+            if (phoneRegexp.test(data.phone) && verifyRegexp.test(data.verify_code) && pwdRegexp.test(data.pwd) && data.invitation_code) {
                 //前端表单验证无误，向后端发送post请求，验证验证码是否正确
                 $.post('http://106.13.208.121:9999/signup/verifySMSCode', data) //调用请求验证码接口
                     .then((response) => {
@@ -292,12 +308,12 @@
             })
         }
     </script>
-    <script src="../node_modules/vconsole/dist/vconsole.min.js"></script>
+    <!-- <script src="../node_modules/vconsole/dist/vconsole.min.js"></script>
     <script>
         // init vConsole
         var vConsole = new VConsole();
         console.log('Hello world');
-    </script>
+    </script> -->
 </body>
 
 </html>
