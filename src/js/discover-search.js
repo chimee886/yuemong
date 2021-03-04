@@ -109,7 +109,7 @@
                                     .then((res) => {
                                             console.log(res)
                                             let songs = res.songs.map((song) => {
-                                                return { id: song.id, name: song.name, singer: song.ar[0].name, cover: song.al.picUrl + '?param=500y500' }
+                                                return { id: song.id, name: song.name, singer: song.ar[0].name, cover: song.al.picUrl + '?param=300y300' }
                                             })
                                             this.model.songs = songs
 

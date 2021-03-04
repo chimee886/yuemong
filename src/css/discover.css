@@ -22,8 +22,6 @@
 .recommendedList
 {
     overflow: hidden;
-
-    padding: 0 .5rem;
 }
 
 .recommendedList h5
@@ -32,8 +30,14 @@
     font-weight: 500;
 
     margin: 14px 0;
+    padding-left: .5rem;
 
     color: #3a3c41;
+}
+
+.recommendedList .recommendedAlbumList
+{
+    padding-left: .5rem;
 }
 
 .recommendedAlbumList .swiper-wrapper .swiper-slide
@@ -73,9 +77,4 @@
 #netEaseNewMusic
 {
     padding-bottom: 2rem;
-}
-
-.netease_search_list ul
-{
-    padding-left: .5rem;
 }

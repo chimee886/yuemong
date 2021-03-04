@@ -5,7 +5,7 @@ let publicData = {}
 async function getPublicData() {
     await $.ajax({
         type: 'get',
-        url: 'http://169.1.0.113:9999/yuemongPublic',
+        url: 'http://106.13.208.121:9999/yuemongPublic',
         success: function(res) {
             publicData = JSON.parse(res)
             console.log('publicData')

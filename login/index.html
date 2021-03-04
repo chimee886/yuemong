@@ -8,51 +8,43 @@
     <link rel="shortcut icon" href="../src/icon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="../node_modules/normalize.css/normalize.css">
     <style>
-        .transition_none *
-        {
+        .transition_none * {
             -webkit-transition: none!important;
-               -moz-transition: none!important;
-                -ms-transition: none!important;
-                 -o-transition: none!important;
-                    transition: none!important;
+            -moz-transition: none!important;
+            -ms-transition: none!important;
+            -o-transition: none!important;
+            transition: none!important;
         }
-
-        *
-        {
+        
+        * {
             -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
         }
-
-        body
-        {
+        
+        body {
             background-color: white;
             background-image: url('http://img.lizhi334.cn/login_bg.png');
             background-repeat: no-repeat;
             background-position: 0 -1.5rem;
             background-size: 100%;
         }
-
-        .wrapper
-        {
+        
+        .wrapper {
             margin-top: 8.25rem;
             padding-left: 1.15rem;
         }
-
-        .wrapper > div
-        {
+        
+        .wrapper>div {
             width: 100%;
             height: 1.65rem;
         }
-
-        input
-        {
+        
+        input {
             font-size: .45rem;
             line-height: .8rem;
-
             width: 75%;
             height: .8rem;
             margin: 10px 0 0 0;
             padding: 0 4px;
-
             color: #3a3c42;
             border: none;
             border-bottom: 1px solid #e4e3df;
@@ -60,98 +52,73 @@
             outline: none;
             background-color: transparent;
         }
-
-        #verify_code
-        {
+        
+        #verify_code {
             width: 48%;
         }
-
-        label
-        {
+        
+        label {
             font-size: .45rem;
-
             display: block;
-
             width: 50%;
             height: .45rem;
-
             transition: all .3s;
             transform: translateY(.75rem);
-
             color: #8c8b89;
         }
-
-        .wrapper .pwd_label
-        {
+        
+        .wrapper .pwd_label {
             width: 100%;
         }
-
-        label.active
-        {
+        
+        label.active {
             font-size: .375rem;
-
             transition: all .3s;
             transform: translateY(.2rem);
-
             color: #adadad;
         }
-
-        .sign_up_wrapper
-        {
+        
+        .sign_up_wrapper {
             height: 1rem;
             margin: .175rem 0;
         }
-
-        .sign_up_wrapper span
-        {
+        
+        .sign_up_wrapper span {
             display: inline-block;
-
             height: 100%;
         }
-
-        .sign_up_wrapper span:nth-child(1)
-        {
+        
+        .sign_up_wrapper span:nth-child(1) {
             font-size: .7rem;
             font-weight: 800;
             line-height: 1.65rem;
-
             height: 1.65rem;
             margin-right: 2.375rem;
-
             color: #3a3c42;
         }
-
-        .sign_up_wrapper span img
-        {
+        
+        .sign_up_wrapper span img {
             height: 100%;
-
             vertical-align: middle;
         }
-
-        .sign_in
-        {
+        
+        .sign_in {
             font-size: .375rem;
-
             color: #3a3c42;
         }
-
-        a
-        {
+        
+        a {
             list-style: none;
-
             color: #3a3c42;
         }
-
-        a:visited
-        {
+        
+        a:visited {
             color: #3a3c42;
         }
-
-        .red
-        {
+        
+        .red {
             color: red!important;
         }
-
     </style>
 </head>
 
@@ -204,7 +171,7 @@
             if (phoneRegexp.test(data.phone) & pwdRegexp.test(data.pwd)) {
                 console.log('开始发登陆请求了')
 
-                $.post('http://169.1.0.113:9999/login', data) //调用请求验证码接口
+                $.post('http://106.13.208.121:9999/login', data) //调用请求验证码接口
                     .then((response) => {
                         let data = JSON.parse(response)
                             //验证成功后将账号/密码储存到数据库

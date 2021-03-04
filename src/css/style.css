@@ -113,12 +113,19 @@ li
     margin: 0 0 0 .5rem;
 }
 
-h4,
+.albums-list h4
+{
+    font-size: .625rem;
+
+    margin: .3rem 0;
+}
+
 .songs-list h4
 {
     font-size: .625rem;
 
     margin: .3rem 0;
+    padding-left: .5rem;
 }
 
 .swiper-slide
@@ -213,7 +220,7 @@ h4,
 
 .songs-list
 {
-    padding: 0 .5rem 2rem .5rem;
+    padding: 0 0 2rem 0;
     /* background-image: linear-gradient(#FFFFFF, #F6F6F6); */
 }
 
@@ -274,9 +281,12 @@ h4,
 .songs-list ul li,
 .song-iterm
 {
+    display: flex;
     overflow: hidden;
+    align-items: center;
 
     height: 1.8rem;
+    padding-left: .5rem;
     /* padding: .2rem 0; */
     /* border: 1px solid red; */
 }
@@ -337,7 +347,7 @@ h4,
 
 .search_list
 {
-    padding-left: .5rem;
+    padding-left: .5rem 0;
 }
 
 .search_cancel
@@ -445,7 +455,6 @@ input[type=search]::-webkit-search-cancel-button
 .single-album ul
 {
     padding-bottom: 1.5rem;
-    padding-left: .5rem;
 }
 
 #downloadApp a:link,

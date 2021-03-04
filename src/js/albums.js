@@ -164,7 +164,6 @@
             let ul = $('#home-page .single-album>ul')
             ul.on('click', 'li', (e) => {
                 e.preventDefault()
-                isPlay = true
                 let li = e.currentTarget
 
                 let id = $(li).attr('data-song-id')
@@ -178,6 +177,9 @@
                 }
                 playListIndex.push(index)
                 this.changeSongInfo(this.model.currentAlbumSongs[index])
+
+                $('#audio')[0].play()
+                isPlay = true
                 window.isPlaying()
                     //给当前播放的歌曲列表添加背景色 
                 $('.song-iterm').removeClass('playing')

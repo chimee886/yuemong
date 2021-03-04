@@ -30,7 +30,7 @@
             return new Promise(function(resolve, reject) { //获取发现页最新歌曲列表
                 $.ajax({
                     type: 'get',
-                    url: 'http://169.1.0.113:3000/recommend/songs?cookie=' + localStorage.getItem('cookie'),
+                    url: 'http://106.13.208.121:3000/recommend/songs?cookie=' + localStorage.getItem('cookie'),
                     xhrFields: {
                         withCredentials: true
                     },
@@ -40,7 +40,7 @@
                         //将获取到的数据处理后存储到本地
                         console.log(response)
                         model.newSongList = response.data.dailySongs.map((list) => {
-                            return { source: 1, id: list.id, cover: list.al.picUrl + '?param=500y500', name: list.name, singer: list.ar[0].name, album: list.al.name }
+                            return { source: 1, id: list.id, cover: list.al.picUrl + '?param=300y300', name: list.name, singer: list.ar[0].name, album: list.al.name }
                         })
                         console.log(model.newSongList)
                         resolve()

@@ -97,7 +97,6 @@
             let ul = $('.songs-list>ul')
             ul.on('click', 'li', (e) => {
                 e.preventDefault()
-                isPlay = true
                 let li = e.currentTarget
 
                 //获取dom里面的歌曲id
@@ -116,6 +115,8 @@
                 playListIndex.push(index)
 
                 //控制歌曲暂停与播放
+                $('#audio')[0].play()
+                isPlay = true
                 window.isPlaying()
                     //给当前播放的歌曲列表添加背景色 
                 $('.song-iterm').removeClass('playing')

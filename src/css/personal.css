@@ -48,8 +48,8 @@
     color: white;
 }
 
-.personal_library,
-.personal_other
+.personal_library p,
+.personal_other p
 {
     padding: 0 .5rem;
 }
@@ -101,7 +101,7 @@
 
 #favorite-list .comments-list
 {
-    padding: 1.8rem 5%;
+    padding: 1.8rem 0;
 }
 
 .personal_other ul,

@@ -76,11 +76,12 @@
 
 .single-album > p
 {
+    font-size: 24px;
+
     margin: .3rem .5rem;
 }
 
 .single-album ul
 {
     padding-bottom: 1.5rem;
-    padding-left: .5rem;
 }
