@@ -171,6 +171,9 @@
                     this.changeSongInfo(url, cover, id, name, singer)
                     playListIndex.push(index)
                 }
+                isPlay = true
+                console.log('触发了下一曲', isPlay)
+                window.isPlaying()
                 identifyFavoriteSong() //检测当前歌曲是否是喜欢的歌曲，改变图标颜色
             })
         },
@@ -197,6 +200,9 @@
                         this.changeSongInfo(url, cover, id, name, singer)
                     }
                 }
+                isPlay = true
+                console.log('触发了上一曲', isPlay)
+                window.isPlaying()
                 identifyFavoriteSong() //检测当前歌曲是否是喜欢的歌曲，改变图标颜色
             })
         },
