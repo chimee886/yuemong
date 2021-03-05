@@ -30,7 +30,7 @@ function getNeteaseSongUrl(id) {
     let songurl = null
     $.ajax({
         type: 'get',
-        url: 'http://106.13.208.121:3000/song/url?id=' + id + '&cookie=' + localStorage.getItem('cookie'),
+        url: 'http://106.13.208.121:3000/song/url?id=' + id + '&cookie=' + localStorage.getItem('cookie') + '&br=320000',
         async: false,
         xhrFields: {
             withCredentials: true
@@ -45,6 +45,7 @@ function getNeteaseSongUrl(id) {
             console.log(JSON.stringify(req))
         }
     })
+    console.log('更新了url')
     return songurl
 }
 

@@ -132,7 +132,25 @@
             nextButton.on('click', (e) => {
                 console.log(playListIndex)
                 e.preventDefault()
-                if (playMode === 'listRandom') { //列表随机模式
+
+                //获取当前音乐来源
+                let source = 0
+                console.log(playList)
+                console.log(typeof playList)
+                for (let i = 0; i < playList.length; i++) {
+                    if (currentSongId == playList[i].id) {
+                        console.log(playList[i])
+                        source = playList[i].source
+                        break
+                    }
+
+                }
+                console.log('source', source)
+
+
+
+                //列表随机模式
+                if (playMode === 'listRandom') {
                     let keys = Object.keys(playList)
                     let listLength = keys.length
 
@@ -140,14 +158,23 @@
                     console.log('playList')
                     console.log(playList)
 
-                    if (!playList[index].url) {
+                    if (source == 1) {
                         playList[index].url = getNeteaseSongUrl(playList[index].id)
+
+                    }
+                    let { url, cover, id, name, singer } = playList[index]
+
+                    if (url) {
+                        currentSongId = id //将当前播放的歌曲id存到model
+                        this.changeSongInfo(url, cover, id, name, singer)
+                        playListIndex.push(index)
+                    } else {
+                        alert('暂时没有版权哦')
                     }
 
-                    let { url, cover, id, name, singer } = playList[index]
-                    currentSongId = id //将当前播放的歌曲id存到model
-                    this.changeSongInfo(url, cover, id, name, singer)
-                    playListIndex.push(index)
+
+
+                    //随机与单曲循环模式
                 } else if (playMode === 'listOrder' | playMode === 'singleLoop') {
                     let keys = Object.keys(playList) //playList获取所有key，获取对象长度
                     let index //声明一个index，获取到当前播放的歌曲的id后，去playList里面找到当前歌曲的角标
@@ -162,14 +189,19 @@
                     console.log(index)
                     console.log(playList[index])
                         //检查url是否存在，不存在就掉接口获取
-                    if (!playList[index].url) {
+                    if (source == 1) {
                         playList[index].url = getNeteaseSongUrl(playList[index].id)
                     }
 
                     let { url, cover, id, name, singer } = playList[index]
-                    currentSongId = id //将当前播放的歌曲id存到model
-                    this.changeSongInfo(url, cover, id, name, singer)
-                    playListIndex.push(index)
+
+                    if (url) {
+                        currentSongId = id //将当前播放的歌曲id存到model
+                        this.changeSongInfo(url, cover, id, name, singer)
+                        playListIndex.push(index)
+                    } else {
+                        alert('暂时没有版权哦')
+                    }
                 }
                 isPlay = true
                 console.log('触发了下一曲', isPlay)
@@ -181,6 +213,21 @@
             let previousButton = this.view.$el.find('.previous')
             previousButton.on('click', (e) => {
                 e.preventDefault()
+
+                //获取当前音乐来源
+                let source = 0
+                console.log(playList)
+                console.log(typeof playList)
+                for (let i = 0; i < playList.length; i++) {
+                    if (currentSongId == playList[i].id) {
+                        console.log(playList[i])
+                        source = playList[i].source
+                        break
+                    }
+
+                }
+                console.log('source', source)
+
                 if (playMode) {
                     console.log('playListIndex' + playListIndex)
                     let lastSongIndex = playListIndex[playListIndex.length - 2] //获取到上一周歌曲在playList的角标
@@ -191,10 +238,13 @@
                         console.log('前面没有歌曲啦')
                         $('.next').trigger('click')
                     } else {
-                        console.log('playList[lastSongIndex]', playList[lastSongIndex].url)
-                        if (!playList[lastSongIndex].url) {
+
+                        console.log('前面还有歌曲？')
+                        console.log(playList)
+                        if (source == 1) {
                             playList[lastSongIndex].url = getNeteaseSongUrl(playList[lastSongIndex].id)
                         }
+
                         let { url, cover, id, name, singer } = playList[lastSongIndex]
                         currentSongId = id //将当前播放的歌曲id存到model
                         this.changeSongInfo(url, cover, id, name, singer)
@@ -214,7 +264,6 @@
                 //替换audio标签的src
             let audio = $('#audio')
             audio.attr('src', url)
-            console.log('url', url)
                 //替换2处封面
             let allCover = $('.player-cover>img')
             for (let i = 0; i < cover.length; i++) {
@@ -367,13 +416,11 @@
 
                 }
                 console.log(source)
+                $('.view-comments-wrapper').show(200).siblings().hide()
+                $('.touchbar').hide()
                 if (source == 0) {
 
-
-                    $('.view-comments-wrapper').show(200).siblings().hide()
-                    $('.touchbar').hide()
-
-                    $.post('http://106.13.208.121:9999/viewComment', currentSongId) //调用请求验证码接口
+                    $.post('http://106.13.208.121:9999/viewComment', currentSongId) //调用评论查询接口
                         .then((response) => {
                             let data = JSON.parse(response)
                             console.log(data)
@@ -411,7 +458,58 @@
                             console.log(request)
                         })
                 } else {
-                    alert('该歌曲不支持查看评论')
+                    console.log(currentSongId)
+                        //获取网易云音乐的歌曲评论
+                    $.get('http://106.13.208.121:3000/comment/music?id=' + currentSongId + '&limit=20')
+                        .then((res) => {
+                            console.log(res)
+                            let data = res.hotComments.map((item) => {
+                                return { avatar: item.user.avatarUrl, nickName: item.user.nickname, createTime: format(item.time), content: item.content }
+                            })
+                            console.log(data)
+
+                            $('.view-comments-wrapper .single-album-loader').hide()
+                            if (data.length < 1) {
+                                let nullTemplate = `
+                                <div class="null_comment">
+                                    <div class="null_img">
+                                        <img src="./src/img/null.png" alt="没有评论">
+                                    </div>
+                                    <p class="null_text">暂时没有评论哦</p>
+                                </div>
+                                `
+                                $('.comments-list').append(nullTemplate)
+
+                            } else {
+                                //获取到后端返回的数据，渲染页面
+                                for (let i = 0; i < data.length; i++) {
+                                    let li = template.replace('{{avatar}}', data[i].avatar)
+                                        .replace('{{nickName}}', data[i].nickName)
+                                        .replace('{{createTime}}', data[i].createTime)
+                                        .replace('{{content}}', data[i].content)
+                                    $('.comments-list').append(li)
+                                }
+                            }
+                            //时间戳转日期函数
+                            function add0(m) { return m < 10 ? '0' + m : m }
+
+                            function format(shijianchuo) {
+                                //shijianchuo是整数，否则要parseInt转换
+                                var time = new Date(shijianchuo);
+                                var y = time.getFullYear();
+                                var m = time.getMonth() + 1;
+                                var d = time.getDate();
+                                var h = time.getHours();
+                                var mm = time.getMinutes();
+                                var s = time.getSeconds();
+                                return y + '-' + add0(m) + '-' + add0(d) + ' ' + add0(h) + ':' + add0(mm) + ':' + add0(s);
+                            }
+
+
+                        }, (req) => {
+                            console.log(req)
+                            alert('获取失败，请稍后再试')
+                        })
                 }
 
 
@@ -429,6 +527,19 @@
 
             $('#send_comments_btn').on('click', () => {
                 let commentContent = $('#send_comments_input').val()
+                    //获取当前音乐的来源
+                let source = 0
+                console.log(playList)
+                console.log(typeof playList)
+                for (let i = 0; i < playList.length; i++) {
+                    if (currentSongId == playList[i].id) {
+                        console.log(playList[i])
+                        source = playList[i].source
+                        break
+                    }
+
+                }
+                console.log(source)
 
                 console.log(commentContent)
                 if (!commentContent) {
@@ -436,47 +547,54 @@
                     alert('请输入内容')
                 } else {
                     //data里面需要user的objid和song的objid
+                    if (source == 0) {
+                        //来源为leancloud的的方法
+                        let uuser = localStorage.getItem('uuser')
+                        let userObjectId = uuser.split('&')[0] //数据库里的用户objId
+                        let userId = uuser.split('&')[1] //数据库里自定义的userId
 
-                    let uuser = localStorage.getItem('uuser')
-                    let userObjectId = uuser.split('&')[0] //数据库里的用户objId
-                    let userId = uuser.split('&')[1] //数据库里自定义的userId
+                        let data = {
+                            songId: currentSongId,
+                            userObjectId: userObjectId,
+                            content: commentContent,
+                            userId: userId
 
-                    let data = {
-                        songId: currentSongId,
-                        userObjectId: userObjectId,
-                        content: commentContent,
-                        userId: userId
+                        }
+                        console.log(data)
+                        console.log(commentContent)
+                        $.post('http://106.13.208.121:9999/postComment', JSON.stringify(data)) //调用请求验证码接口
+                            .then((response) => {
+                                let data = JSON.parse(response)
+                                console.log(data)
 
+                                if ($('.comments-list>.null_comment').length !== 0) {
+                                    $('.comments-list').html('')
+                                }
+                                //获取到后端返回的数据，渲染页面
+                                let li = template.replace('{{avatar}}', data.avatar)
+                                    .replace('{{nickName}}', data.nickName)
+                                    .replace('{{createTime}}', fmtDate(data.createTime))
+                                    .replace('{{content}}', data.content)
+
+                                $('.comments-list').append(li)
+                                $('#send_comments_input').val('')
+
+
+                                function fmtDate(date) { //解析时间戳显示年月日
+                                    var dateee = new Date(date).toJSON();
+                                    return new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
+                                }
+
+                            }, (request) => {
+                                alert(request.responseText)
+                                console.log(request)
+                            })
+
+                    } else if (source == 1) {
+                        //来源为网易
+                        alert('该歌曲暂不支持评论')
                     }
-                    console.log(data)
-                    console.log(commentContent)
-                    $.post('http://106.13.208.121:9999/postComment', JSON.stringify(data)) //调用请求验证码接口
-                        .then((response) => {
-                            let data = JSON.parse(response)
-                            console.log(data)
 
-                            if ($('.comments-list>.null_comment').length !== 0) {
-                                $('.comments-list').html('')
-                            }
-                            //获取到后端返回的数据，渲染页面
-                            let li = template.replace('{{avatar}}', data.avatar)
-                                .replace('{{nickName}}', data.nickName)
-                                .replace('{{createTime}}', fmtDate(data.createTime))
-                                .replace('{{content}}', data.content)
-
-                            $('.comments-list').append(li)
-                            $('#send_comments_input').val('')
-
-
-                            function fmtDate(date) { //解析时间戳显示年月日
-                                var dateee = new Date(date).toJSON();
-                                return new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
-                            }
-
-                        }, (request) => {
-                            alert(request.responseText)
-                            console.log(request)
-                        })
                 }
             })
         },

@@ -40,7 +40,8 @@
         }
     }
     let model = {
-        songs: []
+        songs: [],
+        isOk: true
     }
     let controller = {
         init(view, model) {
@@ -109,7 +110,7 @@
                                     .then((res) => {
                                             console.log(res)
                                             let songs = res.songs.map((song) => {
-                                                return { id: song.id, name: song.name, singer: song.ar[0].name, cover: song.al.picUrl + '?param=300y300' }
+                                                return { source: 1, id: song.id, name: song.name, singer: song.ar[0].name, cover: song.al.picUrl + '?param=300y300' }
                                             })
                                             this.model.songs = songs
 
@@ -150,9 +151,8 @@
             })
         },
         playSong() {
-            this.view.$el.on('click', 'li', (e) => {
+            this.view.$el.off().on('click', 'li', (e) => {
                 e.preventDefault()
-                isPlay = true
                 let li = e.currentTarget
 
                 //获取dom里面的歌曲id
@@ -174,16 +174,18 @@
                 console.log(index)
                 this.changeSongInfo(this.model.songs[index], li)
 
-                playListIndex.push(index)
+                if (this.model.isOk) {
+                    playListIndex.push(index)
 
-                //控制歌曲暂停与播放
-                window.isPlaying()
-                    //给当前播放的歌曲列表添加背景色 
+                    //控制歌曲暂停与播放
+                    window.isPlaying()
+                        //给当前播放的歌曲列表添加背景色 
 
-                generateUrl(id)
-                playList = this.model.songs
-                currentSongId = id
-                identifyFavoriteSong() //检测当前歌曲是否是喜欢的歌曲，改变图标颜色
+                    generateUrl(id)
+                    playList = this.model.songs
+                    currentSongId = id
+                    identifyFavoriteSong() //检测当前歌曲是否是喜欢的歌曲，改变图标颜色
+                }
 
             })
         },
@@ -191,54 +193,40 @@
 
             let allCover = $('.player-cover>img')
             let audio = $('#audio')
-            if (!data.url) {
-                console.log('url没有')
-                let getUrl = getNeteaseSongUrl(data.id)
-                if (getUrl) {
-                    data.url = getUrl
-                    audio.attr('src', data.url)
-                    console.log('data.url', data.url)
 
 
-                    $('#player').find('.player-name').text(data.name)
-                    $('#player').find('.player-singer').text(data.singer)
-                        //替换2处封面
-
-                    for (let i = 0; i < allCover.length; i++) {
-                        $(allCover[i]).attr('src', data.cover)
-                    }
-
-                    //替换audio标签的src
-
-                    audio.attr('src', data.url)
-                    $('.song-iterm').removeClass('playing')
-                    $(li).addClass('playing')
-
-                } else {
-                    alert('没有版权')
-                    console.log('data.url', data.url)
-                }
-            } else {
-                console.log('url有了')
+            let getUrl = getNeteaseSongUrl(data.id)
+            if (getUrl) {
+                data.url = getUrl
                 audio.attr('src', data.url)
+                console.log('data.url', data.url)
+
 
                 $('#player').find('.player-name').text(data.name)
                 $('#player').find('.player-singer').text(data.singer)
+                    //替换2处封面
 
                 for (let i = 0; i < allCover.length; i++) {
                     $(allCover[i]).attr('src', data.cover)
                 }
 
                 //替换audio标签的src
+
                 audio.attr('src', data.url)
                 $('.song-iterm').removeClass('playing')
                 $(li).addClass('playing')
+                isPlay = true
+
+                this.model.isOk = true
+
+            } else {
+                console.log('没有版权')
+                console.log('data.url', data.url)
+                alert('没有版权哦')
+
+                this.model.isOk = false
 
             }
-
-            //给当前播放的歌曲列表添加背景色
-            //this.view.changePlayStatus(data.id)
-            //this.generateUrl(data.id) //生成当前歌曲的url地址
 
         },
         generateUrl(data) { //将当前歌曲的歌曲url地址放到地址栏

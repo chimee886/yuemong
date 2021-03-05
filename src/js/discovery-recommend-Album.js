@@ -61,6 +61,7 @@
     let model = {
         recommendedAlbumList: [],
         songs: [],
+        isOk: true,
         getRecommendedAlbumList() { //获取发现页的推荐歌单数据
             return new Promise(function(resolve, reject) {
                 $.ajax({
@@ -211,9 +212,10 @@
         generateSong(ids, page, rankSongsNumber) {
             $.get('http://106.13.208.121:3000/song/detail?ids=' + ids)
                 .then((res) => {
+                        console.log('res--------------------------------')
                         console.log(res)
                         model.songs = model.songs.concat(res.songs.map((song) => {
-                            return { id: song.id, name: song.name, singer: song.ar[0].name, cover: song.al.picUrl + '?param=300y300' }
+                            return { source: 1, id: song.id, name: song.name, singer: song.ar[0].name, cover: song.al.picUrl + '?param=300y300' }
                         }))
 
                         console.log('model.songs', model.songs)
@@ -260,10 +262,12 @@
 
         ,
         playSong() {
-            $('.discover .single-album ul').on('click', 'li', (e) => {
+            $('.discover .single-album ul').off().on('click', 'li', (e) => {
+                console.log('点击了li-------------------------------')
                 e.preventDefault()
-                isPlay = true
                 let li = e.currentTarget
+
+                console.log(li)
 
                 //获取dom里面的歌曲id
                 let id = Number($(li).attr('data-song-id'))
@@ -285,16 +289,19 @@
                 console.log(index)
                 this.changeSongInfo(this.model.songs[index], li)
 
-                playListIndex.push(index)
+                if (this.model.isOk) {
+                    playListIndex.push(index)
 
-                //控制歌曲暂停与播放
-                window.isPlaying()
-                    //给当前播放的歌曲列表添加背景色 
+                    //控制歌曲暂停与播放
+                    window.isPlaying()
+                        //给当前播放的歌曲列表添加背景色 
 
-                generateUrl(id)
-                playList = this.model.songs
-                currentSongId = id
-                identifyFavoriteSong() //检测当前歌曲是否是喜欢的歌曲，改变图标颜色
+                    generateUrl(id)
+                    playList = this.model.songs
+                    currentSongId = id
+                    identifyFavoriteSong() //检测当前歌曲是否是喜欢的歌曲，改变图标颜色
+
+                }
 
             })
         },
@@ -304,51 +311,43 @@
             let audio = $('#audio')
             console.log('有问题', data)
             console.log('this', this.model.songs)
-            if (!data.url) {
-                console.log('url没有')
-                let getUrl = getNeteaseSongUrl(data.id)
-                if (getUrl) {
-                    data.url = getUrl
-                    audio.attr('src', data.url)
-                    console.log('data.url', data.url)
 
 
-                    $('#player').find('.player-name').text(data.name)
-                    $('#player').find('.player-singer').text(data.singer)
-                        //替换2处封面
 
-                    for (let i = 0; i < allCover.length; i++) {
-                        $(allCover[i]).attr('src', data.cover)
-                    }
-                    console.log('li', li)
-
-                    //替换audio标签的src
-
-                    audio.attr('src', data.url)
-                    $('.song-iterm').removeClass('playing')
-                    $(li).addClass('playing')
-
-                } else {
-                    alert('没有版权')
-                    console.log('data.url', data.url)
-                }
-            } else {
-                console.log('url有了')
+            let getUrl = getNeteaseSongUrl(data.id)
+            if (getUrl) {
+                data.url = getUrl
                 audio.attr('src', data.url)
+                console.log('data.url', data.url)
+
 
                 $('#player').find('.player-name').text(data.name)
                 $('#player').find('.player-singer').text(data.singer)
+                    //替换2处封面
 
                 for (let i = 0; i < allCover.length; i++) {
                     $(allCover[i]).attr('src', data.cover)
                 }
 
+                console.log('li', li)
+
                 //替换audio标签的src
+
                 audio.attr('src', data.url)
                 $('.song-iterm').removeClass('playing')
                 $(li).addClass('playing')
+                isPlay = true
+                this.model.isOk = true
+
+            } else {
+                console.log('----------------------')
+                console.log('没有版权')
+                alert('没有版权哦')
+                console.log('data.url', data.url)
+                this.model.isOk = false
 
             }
+
 
             //给当前播放的歌曲列表添加背景色
             //this.view.changePlayStatus(data.id)

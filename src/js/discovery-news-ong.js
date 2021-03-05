@@ -72,7 +72,7 @@
             })
         },
         playNeteaseSong(ul, model) {
-            $(ul).on('click', 'li', (e) => {
+            $(ul).off().on('click', 'li', (e) => {
                 //let songId = e.currentTarget.dataset.songId
                 let li = e.currentTarget
 
@@ -109,50 +109,36 @@
 
             let allCover = $('.player-cover>img')
             let audio = $('#audio')
-            if (!data.url) {
-                console.log('url没有')
-                let getUrl = getNeteaseSongUrl(data.id)
-                if (getUrl) {
-                    data.url = getUrl
-                    audio.attr('src', data.url)
-                    console.log('data.url', data.url)
 
 
-                    $('#player').find('.player-name').text(data.name)
-                    $('#player').find('.player-singer').text(data.singer)
-                        //替换2处封面
 
-                    for (let i = 0; i < allCover.length; i++) {
-                        $(allCover[i]).attr('src', data.cover)
-                    }
-
-                    //替换audio标签的src
-
-                    audio.attr('src', data.url)
-                    $('.song-iterm').removeClass('playing')
-                    $(li).addClass('playing')
-
-                } else {
-                    alert('没有版权')
-                    console.log('data.url', data.url)
-                }
-            } else {
-                console.log('url有了')
+            let getUrl = getNeteaseSongUrl(data.id)
+            if (getUrl) {
+                data.url = getUrl
                 audio.attr('src', data.url)
+                console.log('data.url', data.url)
+
 
                 $('#player').find('.player-name').text(data.name)
                 $('#player').find('.player-singer').text(data.singer)
+                    //替换2处封面
 
                 for (let i = 0; i < allCover.length; i++) {
                     $(allCover[i]).attr('src', data.cover)
                 }
 
                 //替换audio标签的src
+
                 audio.attr('src', data.url)
                 $('.song-iterm').removeClass('playing')
                 $(li).addClass('playing')
 
+            } else {
+                console.log('没有版权')
+                console.log('data.url', data.url)
+                $('.next').trigger('click')
             }
+
 
             //给当前播放的歌曲列表添加背景色
             //this.view.changePlayStatus(data.id)
