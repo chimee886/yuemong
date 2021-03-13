@@ -73,6 +73,29 @@
                 $(li1[i]).addClass('playing')
 
             }
+        },
+        duration() {
+            //获取当前歌曲的总时长
+            let musicDom = document.getElementsByTagName('audio')[0]; // 获取AudioDom节点
+            musicDom.load(); //因为source标签不能直接更改路径，所以整个audio标签必须重新加载一次
+            musicDom.oncanplay = function() {
+                console.log("音乐时长", musicDom.duration); //音乐总时长
+                //处理时长
+                var time = musicDom.duration;
+                //分钟
+                var minute = time / 60;
+                var minutes = parseInt(minute);
+                if (minutes < 10) {
+                    minutes = "0" + minutes;
+                }
+                //秒
+                var second = time % 60;
+                var seconds = Math.round(second);
+                if (seconds < 10) {
+                    seconds = "0" + seconds;
+                }
+                console.log('处理音乐时长', minutes + "：" + seconds)
+            }
         }
     }
     let model = {}
@@ -91,6 +114,7 @@
             this.timedOff()
             this.viewComments()
             this.autoPause()
+            this.view.duration()
         },
         playPause() {
             //点击暂停按钮控制
@@ -99,9 +123,9 @@
                 window.isPlaying()
             })
 
-            document.onkeypress = function(e) { //阻止按空格键页面滚动
-                e.preventDefault()
-            }
+            // document.onkeypress = function(e) { //阻止按空格键页面滚动
+            //     e.preventDefault()
+            // }
 
             /* $('#player').onkeyup = function(e) { //按空格键控制音乐播放
                 e.preventDefault()

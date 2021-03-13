@@ -225,13 +225,13 @@
 
                         if (model.songs.length < 1) {
                             let nullTemplate = `
-                    <div class="null_comment">
-                        <div class="null_img">
-                            <img src="./src/img/null.png" alt="没有评论">
-                        </div>
-                        <p class="null_text">没有歌曲哦</p>
-                    </div>
-                    `
+                                <div class="null_comment">
+                                    <div class="null_img">
+                                        <img src="./src/img/null.png" alt="没有评论">
+                                    </div>
+                                    <p class="null_text">没有歌曲哦</p>
+                                </div>
+                                `
                             $('.discover .single-album ul').append(nullTemplate)
                         } else {
                             //生成渲染dom

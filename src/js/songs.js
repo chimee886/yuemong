@@ -83,7 +83,6 @@
                 }
                 this.playSong()
                 this.lazyLoad()
-                this.duration()
                 this.initFirstSong()
                 playList = this.model.songs //避免出现生成第一首歌曲之后，播放列表为空，无法点击控制下一曲
 
@@ -138,29 +137,6 @@
             $("img.lazy").lazyload({
                 effect: "fadeIn"
             });
-        },
-        duration() {
-            //获取当前歌曲的总时长
-            let musicDom = document.getElementsByTagName('audio')[0]; // 获取AudioDom节点
-            musicDom.load(); //因为source标签不能直接更改路径，所以整个audio标签必须重新加载一次
-            musicDom.oncanplay = function() {
-                console.log("音乐时长", musicDom.duration); //音乐总时长
-                //处理时长
-                var time = musicDom.duration;
-                //分钟
-                var minute = time / 60;
-                var minutes = parseInt(minute);
-                if (minutes < 10) {
-                    minutes = "0" + minutes;
-                }
-                //秒
-                var second = time % 60;
-                var seconds = Math.round(second);
-                if (seconds < 10) {
-                    seconds = "0" + seconds;
-                }
-                console.log('处理音乐时长', minutes + "：" + seconds)
-            }
         },
         getQueryVariable(variable) { //从地址栏获取歌曲id
             let query = window.location.search.substring(1)

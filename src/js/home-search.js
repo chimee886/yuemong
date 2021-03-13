@@ -70,8 +70,7 @@
 
             //按下enter键处理的事件
             $('#search_ipt').on('keyup', (e) => {
-
-
+                e.preventDefault()
                 if (e.originalEvent.code === 'Enter' || e.keyCode == "13") {
                     let searchVlue = $('#search_ipt').val()
                     if (!searchVlue) {

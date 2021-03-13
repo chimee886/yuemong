@@ -72,8 +72,7 @@
 
             //按下enter键处理的事件
             $('#netease_search_ipt').on('keyup', (e) => {
-
-
+                e.preventDefault()
                 if (e.originalEvent.code === 'Enter' || e.keyCode == "13") {
                     let searchVlue = $('#netease_search_ipt').val()
                     if (!searchVlue) {
@@ -91,57 +90,80 @@
                             .then((response) => {
                                 console.log(this)
                                 console.log(response)
-                                    //获取到所有搜索结果的歌曲id
-                                let songsId = response.result.songs.map((song) => {
-                                    return { id: song.id }
-                                })
-
-                                let ids = ''
-                                for (let i = 0; i < songsId.length; i++) {
-                                    if (i < songsId.length - 1) {
-                                        ids += songsId[i].id + ','
-                                    } else {
-                                        ids += songsId[i].id
-                                    }
-                                }
-                                console.log('ids', ids)
-                                    //根据歌曲id，获取歌曲信息
-                                $.get('http://106.13.208.121:3000/song/detail?ids=' + ids)
-                                    .then((res) => {
-                                            console.log(res)
-                                            let songs = res.songs.map((song) => {
-                                                return { source: 1, id: song.id, name: song.name, singer: song.ar[0].name, cover: song.al.picUrl + '?param=300y300' }
-                                            })
-                                            this.model.songs = songs
-
-                                            //---------------
 
 
-                                            //获取到搜索数据后，隐藏loading动画
-                                            $('.netease_search_list .single-album-loader').hide()
+                                if (!response.result || !response.result.songs) {
+                                    $('.netease_search_list .single-album-loader').hide()
 
-                                            if (this.model.songs.length < 1) {
-                                                let nullTemplate = `
-                                                    <div class="null_comment">
-                                                        <div class="null_img">
-                                                            <img src="./src/img/null.png" alt="没有评论">
+                                    let nullTemplate = `
+                                                        <div class="null_comment">
+                                                            <div class="null_img">
+                                                                <img src="./src/img/null.png" alt="没有评论">
+                                                            </div>
+                                                            <p class="null_text">没有搜到歌曲哦</p>
                                                         </div>
-                                                        <p class="null_text">没有搜到歌曲哦</p>
-                                                    </div>
-                                                    `
-                                                this.view.$el.append(nullTemplate)
-                                            } else {
-                                                //生成渲染dom
-                                                for (let i = 0; i < this.model.songs.length; i++) {
-                                                    this.view.$el.append(this.view.render(this.model.songs[i]))
+                                                        `
+                                    this.view.$el.append(nullTemplate)
+                                } else {
+
+                                    //获取到所有搜索结果的歌曲id
+                                    let songsId = response.result.songs.map((song) => {
+                                        return { id: song.id }
+                                    })
+
+                                    let ids = ''
+                                    for (let i = 0; i < songsId.length; i++) {
+                                        if (i < songsId.length - 1) {
+                                            ids += songsId[i].id + ','
+                                        } else {
+                                            ids += songsId[i].id
+                                        }
+                                    }
+                                    console.log('ids', ids)
+                                        //根据歌曲id，获取歌曲信息
+                                    $.get('http://106.13.208.121:3000/song/detail?ids=' + ids)
+                                        .then((res) => {
+                                                console.log(res)
+                                                let songs = res.songs.map((song) => {
+                                                    return { source: 1, id: song.id, name: song.name, singer: song.ar[0].name, cover: song.al.picUrl + '?param=300y300' }
+                                                })
+                                                this.model.songs = songs
+
+                                                //---------------
+
+
+                                                //获取到搜索数据后，隐藏loading动画
+                                                $('.netease_search_list .single-album-loader').hide()
+
+                                                if (this.model.songs.length < 1) {
+                                                    let nullTemplate = `
+                                                        <div class="null_comment">
+                                                            <div class="null_img">
+                                                                <img src="./src/img/null.png" alt="没有评论">
+                                                            </div>
+                                                            <p class="null_text">没有搜到歌曲哦</p>
+                                                        </div>
+                                                        `
+                                                    this.view.$el.append(nullTemplate)
+                                                } else {
+                                                    //生成渲染dom
+                                                    for (let i = 0; i < this.model.songs.length; i++) {
+                                                        this.view.$el.append(this.view.render(this.model.songs[i]))
+                                                    }
+                                                    //绑定点击事件
+                                                    this.playSong()
+                                                    changePlayStatus(getQueryVariable('id'))
                                                 }
-                                                //绑定点击事件
-                                                this.playSong()
-                                                changePlayStatus(getQueryVariable('id'))
-                                            }
-                                            this.lazyLoad()
-                                        },
-                                        (req) => { console.log(req) })
+                                                this.lazyLoad()
+                                            },
+                                            (req) => { console.log(req) })
+
+
+                                }
+
+
+
+
                             }, (request) => {
                                 console.log(request)
                                 alert(JSON.stringify(request))

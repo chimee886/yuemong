@@ -1,80 +1,64 @@
-.content_null div
-{
+.content_null div {
     width: 5rem;
     height: 100%;
     margin: 4rem auto 1rem auto;
 }
 
-.content_null div img
-{
+.content_null div img {
     width: 100%;
 }
 
-.content_null p
-{
+.content_null p {
     font-size: 18px;
-
     text-align: center;
-
     color: 333434;
 }
 
-.recommendedList
-{
+.recommendedList {
     overflow: hidden;
 }
 
-.recommendedList h5
-{
+.recommendedList h5 {
     font-size: 20px;
     font-weight: 500;
-
     margin: 14px 0;
     padding-left: .5rem;
-
     color: #3a3c41;
 }
 
-.recommendedList .recommendedAlbumList
-{
+.recommendedList .recommendedAlbumList {
     padding-left: .5rem;
 }
 
-.recommendedAlbumList .swiper-wrapper .swiper-slide
-{
+.recommendedAlbumList .swiper-wrapper .swiper-slide {
     overflow: hidden;
-
     height: 4.4rem;
     margin-bottom: 10px;
 }
 
-.recommendedAlbumList .swiper-wrapper .swiper-slide img
-{
+.recommendedAlbumList .swiper-wrapper .swiper-slide img {
     width: 3.2rem;
 }
 
-.recommendedList .swiper-slide .album-cover
-{
+.recommendedList .swiper-slide .album-cover {
     width: 3.2rem;
     height: 3.2rem;
 }
 
-.recommendedList .swiper-slide .album-name
-{
-    font-size: 14px;
-
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-
-    width: 2.8rem;
-
-    white-space: normal;
-
-    -webkit-line-clamp: 2;
-            line-clamp: 2;
+.recommendedList .swiper-slide .album-info {
+    width: 3.2rem;
 }
 
-#netEaseNewMusic
-{
+.recommendedList .swiper-slide .album-name {
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    width: 2.8rem;
+    white-space: normal;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+#netEaseNewMusic {
     padding-bottom: 2rem;
 }
