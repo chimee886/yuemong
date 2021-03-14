@@ -14,8 +14,16 @@
                 <p class="player-singer">歌手</p>
             </div>
         </div>
-        <div class="player-cover-max player-cover paused">
-            <img src="">
+        <div class="cover-lycr-wrapper">
+            <table></table>
+            <div class="player-cover-max player-cover paused">
+                <img src="">
+            </div>
+            <div id="lyrcs" class="lyrcs-wrapper" style="display:none;">
+                <ul>
+                    <p class="null-lyrc">暂无歌词</p>
+                </ul>
+            </div>
         </div>
         <div class="functional-area">
             <span id="play-mode-btn"><img src="" alt=""></span>
@@ -109,7 +117,7 @@
                 let targetWidth = $('.progress-bar-bg').width()
 
                 time = (clickWidth / targetWidth) * $('audio')[0].duration
-                console.log(time)
+                    // console.log(time)
                 $('audio')[0].currentTime = time
                 $('.progress-bar').css('width', clickWidth + 'px')
             })
@@ -119,7 +127,7 @@
             let musicDom = document.getElementsByTagName('audio')[0]; // 获取AudioDom节点
             musicDom.load(); //因为source标签不能直接更改路径，所以整个audio标签必须重新加载一次
             musicDom.oncanplay = () => {
-                console.log("音乐时长", musicDom.duration); //音乐总时长
+                // console.log("音乐时长", musicDom.duration); //音乐总时长
                 //处理时长
                 var time = musicDom.duration;
                 let formatTime = this.formatTime(time)
@@ -685,7 +693,6 @@
                         $('.progress-current').text(currentTime)
                             // 更改播放进度条
                         $('.progress-bar').css('width', strTime)
-                        console.log('currentTime', currentTime)
                     }, 1000);
                     window.isPlaying()
                 })

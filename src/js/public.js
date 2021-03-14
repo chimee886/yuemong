@@ -8,9 +8,8 @@ async function getPublicData() {
         url: 'http://106.13.208.121:9999/yuemongPublic',
         success: function(res) {
             publicData = JSON.parse(res)
-            console.log('publicData')
-            console.log(publicData)
-
+                // console.log('publicData')
+                // console.log(publicData)
             localStorage.setItem('cookie', publicData.cookie)
             localStorage.setItem('appUrl', publicData.appUrl)
         }

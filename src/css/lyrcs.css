@@ -1,0 +1,28 @@
+.cover-lycr-wrapper {
+    margin: 0 auto;
+    padding: 0;
+    height: 10rem;
+    width: 8rem;
+}
+
+.lyrcs-wrapper {
+    width: 8rem;
+    height: 9rem;
+    background-color: white;
+    overflow: scroll;
+    margin: .5rem auto;
+}
+
+.lyrc-item {
+    color: #4e4e4e;
+    font-size: .35rem;
+    text-align: center;
+    padding: 4px 0;
+}
+
+.null-lyrc {
+    color: #4e4e4e;
+    font-size: .35rem;
+    text-align: center;
+    margin: 4rem auto 0 auto;
+}
