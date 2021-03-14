@@ -23,6 +23,12 @@
             <span id="view-comments"><img src="./src/icon/checkComments.png" alt=""></span>
             <span  id="add-favorite"><img src="./src/icon/addToFavorites.png" alt=""></span>
         </div>
+        <div class="progress-wrapper clearfix">
+            <span class="progress-current">00:00</span>
+            <span class="progress-duration">03:45</span>
+            <div class="progress-bar-bg"></div>
+            <div class="progress-bar"></div>
+        </div>
         <div class="player-controller clearfix">
             <div class="previous">
                 <svg class="icon" aria-hidden="true">
@@ -73,29 +79,6 @@
                 $(li1[i]).addClass('playing')
 
             }
-        },
-        duration() {
-            //获取当前歌曲的总时长
-            let musicDom = document.getElementsByTagName('audio')[0]; // 获取AudioDom节点
-            musicDom.load(); //因为source标签不能直接更改路径，所以整个audio标签必须重新加载一次
-            musicDom.oncanplay = function() {
-                console.log("音乐时长", musicDom.duration); //音乐总时长
-                //处理时长
-                var time = musicDom.duration;
-                //分钟
-                var minute = time / 60;
-                var minutes = parseInt(minute);
-                if (minutes < 10) {
-                    minutes = "0" + minutes;
-                }
-                //秒
-                var second = time % 60;
-                var seconds = Math.round(second);
-                if (seconds < 10) {
-                    seconds = "0" + seconds;
-                }
-                console.log('处理音乐时长', minutes + "：" + seconds)
-            }
         }
     }
     let model = {}
@@ -114,7 +97,35 @@
             this.timedOff()
             this.viewComments()
             this.autoPause()
-            this.view.duration()
+            this.duration()
+        },
+        duration() {
+            //获取当前歌曲的总时长
+            let musicDom = document.getElementsByTagName('audio')[0]; // 获取AudioDom节点
+            musicDom.load(); //因为source标签不能直接更改路径，所以整个audio标签必须重新加载一次
+            musicDom.oncanplay = () => {
+                console.log("音乐时长", musicDom.duration); //音乐总时长
+                //处理时长
+                var time = musicDom.duration;
+                let formatTime = this.formatTime(time)
+                    // 将音乐总时长替换为当前音乐时长
+                $('.progress-duration').text(formatTime)
+            }
+        },
+        formatTime(time) {
+            //分钟
+            let minute = time / 60;
+            let minutes = parseInt(minute);
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+            //秒
+            let second = time % 60;
+            let seconds = Math.round(second);
+            if (seconds < 10) {
+                seconds = "0" + seconds;
+            }
+            return formatTime = minutes + ":" + seconds
         },
         playPause() {
             //点击暂停按钮控制
@@ -644,15 +655,30 @@
             }
         },
         autoPause() {
+            let timer = undefined
             let audio = $('#audio')
+                // 检测到音乐开始的行为
+            audio.on('play', () => {
+                    console.log('播放开始')
+                    window.isPlay = true
+                    timer = setInterval(() => {
+                        let time = audio[0].currentTime
+                        let currentTime = this.formatTime(time)
+                            // 将当前播放进度转换为百分比
+                        let strTime = Number(((audio[0].currentTime / audio[0].duration) * .9) * 100).toFixed(2) + '%'
+                            // 更改当前播放的时间显示
+                        $('.progress-current').text(currentTime)
+                            // 更改播放进度条
+                        $('.progress-bar').css('width', strTime)
+                        console.log('currentTime', currentTime)
+                    }, 1000);
+                    window.isPlaying()
+                })
+                // 检测到音乐暂停的行为
             audio.on('pause', () => {
                 console.log('播放暂停了')
                 window.isPlay = false
-                window.isPlaying()
-            })
-            audio.on('play', () => {
-                console.log('播放开始')
-                window.isPlay = true
+                clearInterval(timer)
                 window.isPlaying()
             })
         }

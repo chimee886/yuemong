@@ -344,5 +344,44 @@
     margin-block-end: 0;
 }
 
+.progress-wrapper {
+    position: relative;
+    width: 100%;
+    padding: .5rem 5% 0 5%;
+}
+
+.progress-bar-bg {
+    position: absolute;
+    height: 3px;
+    background: #efefef;
+    width: 90%;
+    border-radius: 2px;
+}
+
+.progress-bar {
+    position: absolute;
+    height: 3px;
+    background: #f2a172;
+    border-radius: 2px;
+}
+
+.progress-current,
+.progress-duration {
+    padding-top: 4px;
+    display: inline-block;
+    width: 45%;
+    color: #BEBFBE;
+    font-size: .3rem;
+}
+
+.progress-current {
+    float: left;
+}
+
+.progress-duration {
+    float: right;
+    text-align: end;
+}
+
 
 /* 最后加.min类,把img的定位改了，其他的元素隐藏 */
