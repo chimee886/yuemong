@@ -28,11 +28,11 @@
             getLyrcs() {
                 $('audio').on('canplay', () => {
                     // 调用获取歌词接口
-                    console.log('调用获取歌词接口', currentSongId)
+                    // console.log('调用获取歌词接口', currentSongId)
                     $.get('http://106.13.208.121:3000/lyric?id=' + currentSongId)
                         .then((req) => {
                             let lyrc = req.lrc.lyric
-                            console.log(lyrc)
+                                // console.log(lyrc)
 
                             let regx = new RegExp(/\s*\n*\[.*?\]\s*/)
 
@@ -45,11 +45,8 @@
                             $('#lyrcs ul').html('')
                             $('#lyrcs ul').append(str)
 
-                            let test1 = regx.exec(lyrc)
-                            console.log('test1')
-                            console.log(test1)
 
-                            console.log(lyrcs)
+                            // console.log(lyrcs)
                         }, (req) => {
                             console.log(req)
                             $('#lyrcs ul').html('')
@@ -65,13 +62,8 @@
                 this.view.init()
                 this.view.test()
                 this.model.getLyrcs()
-                this.ScrollLyrc()
-            },
-            ScrollLyrc() {
-                $('#lyrcs ul').on('scroll', (e) => {
-                    console.log(e)
-                })
             }
+
         }
         controller.init(view, model)
     }

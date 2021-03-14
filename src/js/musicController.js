@@ -1,5 +1,6 @@
 var isPlay = false
 var currentSongId
+let lyrcScrolTimer
 
 //检测歌曲是否播放，控制图标与cover状态
 window.isPlaying = function() {
@@ -12,12 +13,27 @@ window.isPlaying = function() {
         $('.play-button').addClass('hide')
             .siblings().removeClass('hide')
 
+
+        clearInterval(lyrcScrolTimer) //先清除定时器，以免造成重复调用
+            //歌词自动滚动
+        lyrcScrolTimer = setInterval(() => {
+            let percent = $('audio')[0].currentTime / $('audio')[0].duration
+            let height = percent * $('#lyrcs')[0].scrollHeight - 120
+            $('#lyrcs')[0].scrollTop = height
+                // console.log('正在调用歌词滚动定时器')
+        }, 1000);
+        console.log(lyrcScrolTimer)
+
     } else {
         audio[0].pause()
         let cover = $($('.player-cover'))
         cover.addClass('paused')
         $('.pause-button').addClass('hide')
             .siblings().removeClass('hide')
+
+        //清除二次自动滚动的定时器
+        clearInterval(lyrcScrolTimer)
+
     }
 }
 var playList = {}

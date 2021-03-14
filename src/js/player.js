@@ -684,6 +684,8 @@
             audio.on('play', () => {
                     console.log('播放开始')
                     window.isPlay = true
+
+                    clearInterval(timer) //先清除已有的定时器，避免造成重复调用
                     timer = setInterval(() => {
                         let time = audio[0].currentTime
                         let currentTime = this.formatTime(time)
