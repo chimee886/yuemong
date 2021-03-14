@@ -98,6 +98,21 @@
             this.viewComments()
             this.autoPause()
             this.duration()
+            this.changeSongTime()
+        },
+        changeSongTime() {
+            // 手动更改播放进度
+            let progressBar = $('.progress-bar,.progress-bar-bg')
+            progressBar.on('click', (e) => {
+
+                let clickWidth = e.offsetX
+                let targetWidth = $('.progress-bar-bg').width()
+
+                time = (clickWidth / targetWidth) * $('audio')[0].duration
+                console.log(time)
+                $('audio')[0].currentTime = time
+                $('.progress-bar').css('width', clickWidth + 'px')
+            })
         },
         duration() {
             //获取当前歌曲的总时长
