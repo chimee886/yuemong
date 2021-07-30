@@ -478,7 +478,7 @@
                 $('.touchbar').hide()
                 if (source == 0) {
 
-                    $.post('http://106.13.208.121:9999/viewComment', currentSongId) //调用评论查询接口
+                    $.post('http://106.13.232.115:9999/viewComment', currentSongId) //调用评论查询接口
                         .then((response) => {
                             let data = JSON.parse(response)
                             console.log(data)
@@ -518,7 +518,7 @@
                 } else {
                     console.log(currentSongId)
                         //获取网易云音乐的歌曲评论
-                    $.get('http://106.13.208.121:3000/comment/music?id=' + currentSongId + '&limit=20')
+                    $.get('http://106.13.232.115:3000/comment/music?id=' + currentSongId + '&limit=20')
                         .then((res) => {
                             console.log(res)
                             let data = res.hotComments.map((item) => {
@@ -620,7 +620,7 @@
                         }
                         console.log(data)
                         console.log(commentContent)
-                        $.post('http://106.13.208.121:9999/postComment', JSON.stringify(data)) //调用请求验证码接口
+                        $.post('http://106.13.232.115:9999/postComment', JSON.stringify(data)) //调用请求验证码接口
                             .then((response) => {
                                 let data = JSON.parse(response)
                                 console.log(data)

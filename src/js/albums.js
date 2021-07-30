@@ -15,7 +15,7 @@
         albumTemplate: `
         <li data-song-id="{{song-id}}" class="song-iterm">
             <div class="song-cover">
-                <img class="lazy" data-original="{{songs-cover}}" alt="">
+                <img class="lazy" src="{{songs-cover}}" alt="">
             </div>
             <div class="song-info">
                 <p class="song-name">{{songs-name}}</p>
@@ -81,7 +81,7 @@
             return new Promise(function(resolve, reject) {
                 $.ajax({
                     type: 'get',
-                    url: 'http://106.13.208.121:9999/hotAlbums',
+                    url: 'http://106.13.232.115:9999/hotAlbums',
                     success: function(response) {
                         model.allAlbums = JSON.parse(response)
                         resolve()
@@ -93,7 +93,7 @@
             return new Promise(function(resolve, reject) {
                 $.ajax({
                     type: 'get',
-                    url: 'http://106.13.208.121:9999/albumSongs',
+                    url: 'http://106.13.232.115:9999/albumSongs',
                     data: albumId,
                     dataType: 'text',
                     success: function(response) {

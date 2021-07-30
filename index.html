@@ -20,7 +20,7 @@
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script>
         let token = localStorage.getItem('music_token')
-        token ? $.post('http://106.13.208.121:9999/', token) //调用请求验证码接口
+        token ? $.post('http://106.13.232.115:9999/', token) //调用请求验证码接口
             .then((data) => {
                 const response = JSON.parse(data)
 

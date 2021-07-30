@@ -4,7 +4,7 @@
         template: `
         <li data-song-id="{{song-id}}" class="song-iterm">
             <div class="song-cover">
-                <img class="lazy" data-original="{{songs-cover}}" alt="">
+                <img class="lazy" src="{{songs-cover}}" alt="">
             </div>
             <div class="song-info">
                 <p class="song-name">{{songs-name}}</p>
@@ -84,7 +84,7 @@
                         $('.search_list .single-album-loader').show()
 
                         //点击enter，发起搜索请求
-                        $.post('http://106.13.208.121:9999/searchSong', searchVlue)
+                        $.post('http://106.13.232.115:9999/searchSong', searchVlue)
                             .then((response) => {
                                 console.log(this)
                                 console.log(JSON.parse(response))

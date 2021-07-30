@@ -20,17 +20,24 @@
             -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
         }
         
+        html {
+            height: 100%;
+        }
+        
         body {
             background-color: white;
             background-image: url('http://img.lizhi334.cn/login_bg.png');
             background-repeat: no-repeat;
             background-position: 0 -1.5rem;
             background-size: 100%;
+            height: 100%;
         }
         
         .wrapper {
-            margin-top: 8.25rem;
+            padding-top: 8.25rem;
             padding-left: 1.15rem;
+            height: 100%;
+            overflow: hidden;
         }
         
         .wrapper>div {
@@ -171,7 +178,7 @@
             if (phoneRegexp.test(data.phone) & pwdRegexp.test(data.pwd)) {
                 console.log('开始发登陆请求了')
 
-                $.post('http://106.13.208.121:9999/login', data) //调用请求验证码接口
+                $.post('http://106.13.232.115:9999/login', data) //调用请求验证码接口
                     .then((response) => {
                         let data = JSON.parse(response)
                             //验证成功后将账号/密码储存到数据库

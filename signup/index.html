@@ -20,17 +20,23 @@
             transition: none!important;
         }
         
+        html {
+            height: 100%;
+        }
+        
         body {
             background-color: white;
             background-image: url('http://img.lizhi334.cn/sign_up_bg.png');
             background-repeat: no-repeat;
             background-position: 0 -1.5rem;
             background-size: 100%;
+            height: 100%;
         }
         
         .wrapper {
-            margin-top: 8rem;
+            padding-top: 8rem;
             padding-left: 1.15rem;
+            height: 100%;
         }
         
         .wrapper>div {
@@ -188,7 +194,7 @@
             if (phoneRegexp.test(phone)) {
                 data.phone = phone
                 console.log('手机号格式正确')
-                $.post('http://106.13.208.121:9999/signup/getVerifyCode', data.phone) //调用请求验证码接口
+                $.post('http://106.13.232.115:9999/signup/getVerifyCode', data.phone) //调用请求验证码接口
                     .then((response) => {
                         console.log(response)
                         if (response === 'success') { //短信发送成功处理的事件
@@ -244,7 +250,7 @@
                 //
             if (phoneRegexp.test(data.phone) && verifyRegexp.test(data.verify_code) && pwdRegexp.test(data.pwd) && data.invitation_code) {
                 //前端表单验证无误，向后端发送post请求，验证验证码是否正确
-                $.post('http://106.13.208.121:9999/signup/verifySMSCode', data) //调用请求验证码接口
+                $.post('http://106.13.232.115:9999/signup/verifySMSCode', data) //调用请求验证码接口
                     .then((response) => {
                         console.log(response)
                             //验证成功后将账号/密码储存到数据库

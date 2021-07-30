@@ -4,7 +4,7 @@
         template: `
         <li data-song-id="{{song-id}}" class="song-iterm">
             <div class="song-cover">
-                <img class="lazy" data-original="{{songs-cover}}" alt="">
+                <img class="lazy" src="{{songs-cover}}" alt="">
             </div>
             <div class="song-info">
                 <p class="song-name">{{songs-name}}</p>
@@ -73,7 +73,7 @@
                 console.log(data)
 
 
-                $.post('http://106.13.208.121:9999/viewFavorite', JSON.stringify(data)) //调用请求验证码接口
+                $.post('http://106.13.232.115:9999/viewFavorite', JSON.stringify(data)) //调用请求验证码接口
                     .then((response) => {
 
                         $('#favorite-list .single-album-loader').hide() //隐藏loading动画

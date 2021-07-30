@@ -29,7 +29,7 @@
                 $('audio').on('canplay', () => {
                     // 调用获取歌词接口
                     // console.log('调用获取歌词接口', currentSongId)
-                    $.get('http://106.13.208.121:3000/lyric?id=' + currentSongId)
+                    $.get('http://106.13.232.115:3000/lyric?id=' + currentSongId)
                         .then((req) => {
                             let lyrc = req.lrc.lyric
                                 // console.log(lyrc)

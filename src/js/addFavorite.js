@@ -39,7 +39,7 @@
                 console.log(data)
 
                 if (source === 0) {
-                    $.post('http://106.13.208.121:9999/addToFavorite', JSON.stringify(data)) //调用请求验证码接口
+                    $.post('http://106.13.232.115:9999/addToFavorite', JSON.stringify(data)) //调用请求验证码接口
                         .then((response) => {
                             console.log(response)
                             if (response === 'saveSuccess') {

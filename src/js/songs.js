@@ -4,7 +4,7 @@
         template: `
         <li data-song-id="{{song-id}}" class="song-iterm">
             <div class="song-cover">
-                <img class="lazy" data-original="{{songs-cover}}" alt="">
+                <img class="lazy" src="{{songs-cover}}" alt="">
             </div>
             <div class="song-info">
                 <p class="song-name">{{songs-name}}</p>
@@ -48,7 +48,7 @@
             return new Promise(function(resolve, reject) {
                 $.ajax({
                     type: 'get',
-                    url: 'http://106.13.208.121:9999/hotSongs',
+                    url: 'http://106.13.232.115:9999/hotSongs',
                     success: function(response) {
                         model.songs = JSON.parse(response)
                         resolve()

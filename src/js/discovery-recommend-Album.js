@@ -14,7 +14,7 @@
         songTemplate: `
             <li data-song-id="{{song-id}}" class="song-iterm">
                 <div class="song-cover">
-                    <img class="lazy" data-original="{{songs-cover}}" alt="">
+                    <img class="lazy" src="{{songs-cover}}" alt="">
                 </div>
                 <div class="song-info">
                     <p class="song-name">{{songs-name}}</p>
@@ -66,7 +66,7 @@
             return new Promise(function(resolve, reject) {
                 $.ajax({
                     // type: 'get',
-                    url: 'http://106.13.208.121:3000/recommend/resource?cookie=' + localStorage.getItem('cookie'),
+                    url: 'http://106.13.232.115:3000/recommend/resource?cookie=' + localStorage.getItem('cookie'),
                     xhrFields: {
                         withCredentials: true
                     },
@@ -122,7 +122,7 @@
                 $('.discover .single-album ul').html('')
                     // identifyFavoriteSong()
 
-                $.get('http://106.13.208.121:3000/playlist/detail?id=' + albumId)
+                $.get('http://106.13.232.115:3000/playlist/detail?id=' + albumId)
                     .then((response) => {
                         //更换歌单详情页的封面和名字
                         let albumInfo = {}
@@ -210,7 +210,7 @@
 
         ,
         generateSong(ids, page, rankSongsNumber) {
-            $.get('http://106.13.208.121:3000/song/detail?ids=' + ids)
+            $.get('http://106.13.232.115:3000/song/detail?ids=' + ids)
                 .then((res) => {
                         console.log('res--------------------------------')
                         console.log(res)
